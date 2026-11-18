@@ -79,7 +79,6 @@
         .khatmah-badge { background: rgba(0, 0, 0, 0.22); padding: 0.35rem 0.9rem; border-radius: 50px; display: flex; align-items: center; gap: 0.8rem; font-size: 0.85rem; }
         .khatmah-count { font-weight: 700; color: #f7d994; font-size: 1rem; }
 
-        /* شريط حكمة اليوم وتاريخ اليوم */
         .info-ticker-bar { max-width: 1320px; margin: 1rem auto 0; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr auto; gap: 1rem; }
         @media(max-width: 768px) { .info-ticker-bar { grid-template-columns: 1fr; } }
         .wisdom-box { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 0.7rem 1.2rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; box-shadow: var(--shadow); color: var(--primary); font-weight: 600; }
@@ -165,7 +164,7 @@
 
             <div class="login-logo">🕌</div>
             <h1>مقرأة إثمار 3 (ذكور)</h1>
-            <p>أكاديمية الجيل الصاعد — سجل بياناتك وكلمة مرورك الخاصة</p>
+            <p>أكاديمية الجيل الصاعد — النظام الشامل والمحمي</p>
 
             <div class="form-group">
                 <label for="studentNameInput">اسم الطالب الثلاثي:</label>
@@ -188,7 +187,7 @@
                     <input type="password" id="studentPasswordInput" class="form-control" placeholder="أنشئ كلمة مرور أو أدخل كلمتك المسجلة..." onkeyup="if(event.key==='Enter') handleLogin()">
                     <button type="button" class="toggle-pwd-btn" onclick="toggleStudentPasswordVisibility()">إظهار</button>
                 </div>
-                <small>🔒 اختر كلمة مرور خاصة بك لحماية إنجازك ومنع دخول أي شخص آخر لحسابك.</small>
+                <small>🔒 لن يتم فتح المقرأة إلا بعد إرسال طلب انضمام وموافقة المشرف عليه.</small>
             </div>
 
             <button class="btn btn-primary" id="loginBtn" style="width: 100%; padding: 0.85rem; font-size: 1.05rem; margin-top: 0.4rem;" onclick="handleLogin()">
@@ -196,8 +195,8 @@
             </button>
 
             <div style="margin-top: 1.2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
-                <button class="btn btn-outline" style="width: 100%; font-size: 0.85rem;" onclick="openAdminLoginModal()">
-                    🔐 دخول لوحة تحكم المشرف
+                <button class="btn btn-outline" style="width: 100%; font-size: 0.9rem;" onclick="openAdminLoginModal()">
+                    مشرف
                 </button>
             </div>
         </div>
@@ -207,14 +206,14 @@
     <div class="modal-overlay" id="adminLoginModal">
         <div class="modal-card" style="max-width: 400px; height: auto;">
             <div class="modal-header">
-                <h3>دخول المشرف</h3>
+                <h3>مشرف</h3>
                 <button class="btn btn-outline" onclick="closeAdminLoginModal()">✕</button>
             </div>
             <div class="form-group">
-                <label>كلمة سر المشرف:</label>
-                <input type="password" id="adminPasswordInput" class="form-control" placeholder="أدخل كلمة السر..." onkeyup="if(event.key==='Enter') verifyAdminPassword()">
+                <label>باسوورد المشرف:</label>
+                <input type="password" id="adminPasswordInput" class="form-control" placeholder="اكتب باسوورد المشرف" onkeyup="if(event.key==='Enter') verifyAdminPassword()">
             </div>
-            <button class="btn btn-primary" style="width:100%;" onclick="verifyAdminPassword()">دخول لوحة التحكم</button>
+            <button class="btn btn-primary" style="width:100%;" onclick="verifyAdminPassword()">دخول</button>
         </div>
     </div>
 
@@ -222,10 +221,10 @@
     <div class="modal-overlay" id="adminDashboardModal">
         <div class="modal-card">
             <div class="modal-header">
-                <h2 style="color:var(--primary);">🛡️ لوحة تحكم المشرف (الطلبات والطلاب)</h2>
+                <h2 style="color:var(--primary);">🛡️ إدارة طلبات الانضمام والطلاب</h2>
                 <button class="btn btn-outline" onclick="closeAdminDashboard()">✕ إغلاق</button>
             </div>
-            <div style="margin-bottom:0.6rem; font-weight:700;">طلبات الانضمام المعلقة:</div>
+            <div style="margin-bottom:0.6rem; font-weight:700; color:var(--primary);">طلبات الانضمام المعلقة (تحتاج موافقتك):</div>
             <div class="admin-list" id="adminRequestsList">
                 <div class="loader">جاري جلب الطلبات...</div>
             </div>
@@ -396,69 +395,9 @@
         </section>
     </main>
 
-    <!-- ربط قاعدة بيانات Firebase Firestore المباشر -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBO68EBbPQZH3riuK5n0Rz8RGQor7pth-g",
-            authDomain: "ithmar3.firebaseapp.com",
-            projectId: "ithmar3",
-            storageBucket: "ithmar3.firebasestorage.app",
-            messagingSenderId: "975043645890",
-            appId: "1:975043645890:web:64c116f9500a2c7934865b",
-            measurementId: "G-VFZKG83638"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        window.fbGetStudent = async (key) => {
-            try {
-                const snap = await getDoc(doc(db, "students", key));
-                return snap.exists() ? snap.data() : null;
-            } catch (e) {
-                const localDb = JSON.parse(localStorage.getItem('ithmar3_all_students_db')) || {};
-                return localDb[key] || null;
-            }
-        };
-
-        window.fbSaveStudent = async (key, data) => {
-            const localDb = JSON.parse(localStorage.getItem('ithmar3_all_students_db')) || {};
-            localDb[key] = data;
-            localStorage.setItem('ithmar3_all_students_db', JSON.stringify(localDb));
-            try {
-                await setDoc(doc(db, "students", key), data);
-            } catch (e) {}
-        };
-
-        window.fbDeleteStudent = async (key) => {
-            const localDb = JSON.parse(localStorage.getItem('ithmar3_all_students_db')) || {};
-            delete localDb[key];
-            localStorage.setItem('ithmar3_all_students_db', JSON.stringify(localDb));
-            try {
-                await deleteDoc(doc(db, "students", key));
-            } catch (e) {}
-        };
-
-        window.fbGetAllStudents = async () => {
-            try {
-                const querySnapshot = await getDocs(collection(db, "students"));
-                const list = [];
-                querySnapshot.forEach((docSnap) => {
-                    list.push(docSnap.data());
-                });
-                return list;
-            } catch (e) {
-                const localDb = JSON.parse(localStorage.getItem('ithmar3_all_students_db')) || {};
-                return Object.values(localDb);
-            }
-        };
-    </script>
-
     <script>
         const TOTAL_PAGES = 604;
+        const ADMIN_SECRET = "123"; // باسوورد المشرف
         let selectedGroup = '';
         let currentStudentKey = '';
         let surahsMetadata = [];
@@ -467,7 +406,7 @@
         let appState = {
             name: '',
             group: '',
-            passwordHash: '', // تخزين كلمة المرور مشفرة لحماية حساب الطالب
+            passwordHash: '',
             status: 'pending', // pending | approved
             khatmahNumber: 1,
             completedKhatmahs: 0,
@@ -476,7 +415,6 @@
             tadabburPages: {}
         };
 
-        // دالة تشفير كلمة المرور (SHA-256) لضمان عدم ظهورها كنص مكشوف
         async function hashPassword(password) {
             const msgUint8 = new TextEncoder().encode(password);
             const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
@@ -484,19 +422,6 @@
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
-        function toggleStudentPasswordVisibility() {
-            const input = document.getElementById('studentPasswordInput');
-            const btn = document.querySelector('.toggle-pwd-btn');
-            if (input.type === 'password') {
-                input.type = 'text';
-                btn.textContent = 'إخفاء';
-            } else {
-                input.type = 'password';
-                btn.textContent = 'إظهار';
-            }
-        }
-
-        // حكم متجددة يومياً
         const wisdoms = [
             "خُذِ العِفَّةَ وَالحَياءَ عُدَّةً، وَتَمَسَّكْ بِالقُرآنِ عِصْمَةً.",
             "مَنْ عَمِلَ بِمَا عَلِمَ، أورثه الله عِلْمَ مَا لَمْ يَعْلَمْ.",
@@ -529,6 +454,26 @@
             selectedGroup = groupName;
         }
 
+        function toggleStudentPasswordVisibility() {
+            const input = document.getElementById('studentPasswordInput');
+            const btn = document.querySelector('.toggle-pwd-btn');
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = 'إخفاء';
+            } else {
+                input.type = 'password';
+                btn.textContent = 'إظهار';
+            }
+        }
+
+        function getLocalDatabase() {
+            return JSON.parse(localStorage.getItem('ithmar3_all_students_db')) || {};
+        }
+
+        function saveLocalDatabase(db) {
+            localStorage.setItem('ithmar3_all_students_db', JSON.stringify(db));
+        }
+
         async function handleLogin() {
             const name = document.getElementById('studentNameInput').value.trim();
             const rawPassword = document.getElementById('studentPasswordInput').value.trim();
@@ -539,63 +484,46 @@
                 return alert('يرجى إدخال كلمة مرور خاصة بك لا تقل عن 4 أحرف أو أرقام.');
             }
 
-            const loginBtn = document.getElementById('loginBtn');
-            loginBtn.textContent = 'جاري التحقق من البيانات...';
-            loginBtn.disabled = true;
+            const hashedInputPwd = await hashPassword(rawPassword);
+            currentStudentKey = `${name}_${selectedGroup}`.replace(/\s+/g, '_');
+            let db = getLocalDatabase();
 
-            try {
-                const hashedInputPwd = await hashPassword(rawPassword);
-                currentStudentKey = `${name}_${selectedGroup}`.replace(/\s+/g, '_');
-                
-                let existingStudent = await window.fbGetStudent(currentStudentKey);
-
-                if (existingStudent) {
-                    // إذا كان الحساب قديماً أو تم تصفير كلمة مروره من المشرف، يتم اعتماد كلمة المرور الجديدة
-                    if (!existingStudent.passwordHash) {
-                        existingStudent.passwordHash = hashedInputPwd;
-                        await window.fbSaveStudent(currentStudentKey, existingStudent);
-                        alert('تم ربط كلمة المرور الجديدة بحسابك بنجاح!');
-                    } else if (existingStudent.passwordHash !== hashedInputPwd) {
-                        alert('❌ كلمة المرور غير صحيحة! هذا الاسم مسجل بكلمة مرور مختلفة.');
-                        loginBtn.textContent = 'دخول / إرسال طلب الانضمام ⬅';
-                        loginBtn.disabled = false;
-                        return;
-                    }
-                    appState = existingStudent;
-                } else {
-                    // إنشاء حساب طالب جديد مع كلمة مروره الخاصة
-                    appState = {
-                        name: name,
-                        group: selectedGroup,
-                        passwordHash: hashedInputPwd,
-                        status: 'pending', // معلق بانتظار موافقة المشرف
-                        khatmahNumber: 1,
-                        completedKhatmahs: 0,
-                        currentPage: 1,
-                        completedPages: {},
-                        tadabburPages: {}
-                    };
-                    await window.fbSaveStudent(currentStudentKey, appState);
+            if (db[currentStudentKey]) {
+                // إذا تم تصفير كلمة المرور من المشرف
+                if (!db[currentStudentKey].passwordHash) {
+                    db[currentStudentKey].passwordHash = hashedInputPwd;
+                    saveLocalDatabase(db);
+                    alert('تم ربط كلمة المرور الجديدة بحسابك بنجاح!');
+                } else if (db[currentStudentKey].passwordHash !== hashedInputPwd) {
+                    return alert('❌ كلمة المرور غير صحيحة! هذا الحساب مسجل بكلمة مرور مختلفة.');
                 }
-
-                if (appState.status === 'pending') {
-                    alert('✅ تم حفظ حسابك وكلمة مرورك بنجاح! طلبك الآن بانتظار موافقة المشرف ليتم فتح المقرأة لك.');
-                    loginBtn.textContent = 'دخول / إرسال طلب الانضمام ⬅';
-                    loginBtn.disabled = false;
-                    return;
-                }
-
-                localStorage.setItem('ithmar3_active_student_id', currentStudentKey);
-                localStorage.setItem('ithmar3_active_student_pwd', hashedInputPwd);
-                loginBtn.textContent = 'دخول / إرسال طلب الانضمام ⬅';
-                loginBtn.disabled = false;
-                enterApp();
-            } catch (err) {
-                console.error(err);
-                alert('حدث خطأ أثناء الاتصال، تأكد من اتصال الإنترنت وحاول مرة أخرى.');
-                loginBtn.textContent = 'دخول / إرسال طلب الانضمام ⬅';
-                loginBtn.disabled = false;
+                appState = db[currentStudentKey];
+            } else {
+                // تسجيل طالب جديد في حالة انتظار (pending)
+                appState = {
+                    name: name,
+                    group: selectedGroup,
+                    passwordHash: hashedInputPwd,
+                    status: 'pending', // إجباري بانتظار موافقة المشرف
+                    khatmahNumber: 1,
+                    completedKhatmahs: 0,
+                    currentPage: 1,
+                    completedPages: {},
+                    tadabburPages: {}
+                };
+                db[currentStudentKey] = appState;
+                saveLocalDatabase(db);
             }
+
+            // منع الدخول التلقائي قبل موافقة المشرف
+            if (appState.status !== 'approved') {
+                alert('⏳ تم إرسال طلب الانضمام إلى المشرف بنجاح! لا يمكنك الدخول للمقرأة إلا بعد دخول المشرف وقبول طلبك.');
+                return;
+            }
+
+            localStorage.setItem('ithmar3_active_student_id', currentStudentKey);
+            localStorage.setItem('ithmar3_active_student_pwd', hashedInputPwd);
+            enterApp();
         }
 
         function enterApp() {
@@ -613,35 +541,36 @@
             document.getElementById('loginOverlay').style.display = 'flex';
         }
 
-        async function deleteMyAccount() {
-            if (confirm('هل أنت متأكد من رغبتك في حذف حسابك نهائياً من السحابة؟')) {
-                await window.fbDeleteStudent(currentStudentKey);
-                localStorage.removeItem('ithmar3_active_student_id');
-                localStorage.removeItem('ithmar3_active_student_pwd');
+        function deleteMyAccount() {
+            if (confirm('هل أنت متأكد من رغبتك في حذف حسابك نهائياً؟')) {
+                let db = getLocalDatabase();
+                delete db[currentStudentKey];
+                saveLocalDatabase(db);
+                logout();
                 alert('تم حذف الحساب بنجاح.');
                 location.reload();
             }
         }
 
-        // تحكم المشرف بكلمة السر "123"
+        // نوافذ المشرف
         function openAdminLoginModal() {
             document.getElementById('adminLoginModal').style.display = 'flex';
+            document.getElementById('adminPasswordInput').focus();
         }
         function closeAdminLoginModal() {
             document.getElementById('adminLoginModal').style.display = 'none';
         }
         function verifyAdminPassword() {
             const pwd = document.getElementById('adminPasswordInput').value;
-            if (pwd === '123') {
+            if (pwd === ADMIN_SECRET) {
                 document.getElementById('adminPasswordInput').value = '';
                 closeAdminLoginModal();
                 openAdminDashboard();
             } else {
-                alert('كلمة السر غير صحيحة!');
+                alert('❌ باسوورد المشرف غير صحيح!');
             }
         }
-
-        async function openAdminDashboard() {
+        function openAdminDashboard() {
             document.getElementById('adminDashboardModal').style.display = 'flex';
             renderAdminLists();
         }
@@ -649,19 +578,18 @@
             document.getElementById('adminDashboardModal').style.display = 'none';
         }
 
-        async function renderAdminLists() {
+        function renderAdminLists() {
             const reqListEl = document.getElementById('adminRequestsList');
             const stuListEl = document.getElementById('adminStudentsList');
-            reqListEl.innerHTML = '<div class="loader">جاري التحميل...</div>';
-            stuListEl.innerHTML = '<div class="loader">جاري التحميل...</div>';
+            let db = getLocalDatabase();
+            const allStudents = Object.values(db);
 
-            const allStudents = await window.fbGetAllStudents();
-            const pending = allStudents.filter(s => s.status === 'pending');
+            const pending = allStudents.filter(s => s.status !== 'approved');
             const approved = allStudents.filter(s => s.status === 'approved');
 
-            // طلبات معلقة
+            // الطلبات المعلقة
             if (pending.length === 0) {
-                reqListEl.innerHTML = '<div style="color:var(--text-muted); padding:0.5rem;">لا توجد طلبات معلقة حالياً.</div>';
+                reqListEl.innerHTML = '<div style="color:var(--text-muted); padding:0.5rem;">لا توجد طلبات انضمام معلقة حالياً.</div>';
             } else {
                 reqListEl.innerHTML = '';
                 pending.forEach(st => {
@@ -671,8 +599,8 @@
                     row.innerHTML = `
                         <div><strong>${st.name}</strong> <span class="group-tag">${st.group}</span></div>
                         <div style="display:flex; gap:0.4rem;">
-                            <button class="btn btn-success" style="padding:0.3rem 0.7rem; font-size:0.8rem;" onclick="approveStudent('${key}')">موافقة ✓</button>
-                            <button class="btn btn-danger" style="padding:0.3rem 0.7rem; font-size:0.8rem;" onclick="removeStudentRecord('${key}')">رفض</button>
+                            <button class="btn btn-success" style="padding:0.35rem 0.8rem; font-size:0.82rem;" onclick="approveStudent('${key}')">موافقة ✓</button>
+                            <button class="btn btn-danger" style="padding:0.35rem 0.8rem; font-size:0.82rem;" onclick="adminDeleteStudent('${key}')">رفض</button>
                         </div>
                     `;
                     reqListEl.appendChild(row);
@@ -681,7 +609,7 @@
 
             // الطلاب المقبولون
             if (approved.length === 0) {
-                stuListEl.innerHTML = '<div style="color:var(--text-muted); padding:0.5rem;">لا يوجد طلاب مسجلون بعد.</div>';
+                stuListEl.innerHTML = '<div style="color:var(--text-muted); padding:0.5rem;">لا يوجد طلاب مقبولون بعد.</div>';
             } else {
                 stuListEl.innerHTML = '';
                 approved.forEach(st => {
@@ -691,8 +619,8 @@
                     row.innerHTML = `
                         <div><strong>${st.name}</strong> <span class="group-tag">${st.group}</span></div>
                         <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
-                            <button class="btn btn-warning" style="padding:0.3rem 0.7rem; font-size:0.8rem;" onclick="resetStudentPassword('${key}')">🔑 تصفير كلمة السر</button>
-                            <button class="btn btn-danger" style="padding:0.3rem 0.7rem; font-size:0.8rem;" onclick="removeStudentRecord('${key}')">حذف الطالب</button>
+                            <button class="btn btn-warning" style="padding:0.3rem 0.7rem; font-size:0.8rem;" onclick="resetStudentPassword('${key}')">🔑 تصفير الباسوورد</button>
+                            <button class="btn btn-danger" style="padding:0.3rem 0.7rem; font-size:0.8rem;" onclick="adminDeleteStudent('${key}')">حذف الطالب</button>
                         </div>
                     `;
                     stuListEl.appendChild(row);
@@ -700,35 +628,37 @@
             }
         }
 
-        async function approveStudent(key) {
-            let st = await window.fbGetStudent(key);
-            if (st) {
-                st.status = 'approved';
-                await window.fbSaveStudent(key, st);
+        function approveStudent(key) {
+            let db = getLocalDatabase();
+            if (db[key]) {
+                db[key].status = 'approved';
+                saveLocalDatabase(db);
                 renderAdminLists();
-                alert(`تمت الموافقة على الطالب ${st.name}! يمكنه الآن تسجيل الدخول بكلمة مروره.`);
+                alert(`✅ تمت الموافقة على الطالب (${db[key].name}). يمكنه الآن الدخول للمقرأة!`);
             }
         }
 
-        async function resetStudentPassword(key) {
-            if (confirm('هل تريد تصفير كلمة مرور هذا الطالب ليتمكن من إنشاء كلمة مرور جديدة عند دخوله القادم؟')) {
-                let st = await window.fbGetStudent(key);
-                if (st) {
-                    st.passwordHash = '';
-                    await window.fbSaveStudent(key, st);
-                    alert(`تم تصفير كلمة مرور الطالب (${st.name}). أخبره بإدخال كلمة مرور جديدة عند تسجيل الدخول.`);
+        function resetStudentPassword(key) {
+            if (confirm('هل تريد تصفير باسوورد هذا الطالب ليتمكن من إنشاء باسوورد جديد عند دخوله القادم؟')) {
+                let db = getLocalDatabase();
+                if (db[key]) {
+                    db[key].passwordHash = '';
+                    saveLocalDatabase(db);
+                    alert(`تم تصفير باسوورد الطالب (${db[key].name}).`);
                 }
             }
         }
 
-        async function removeStudentRecord(key) {
+        function adminDeleteStudent(key) {
             if (confirm('هل أنت متأكد من حذف هذا السجل نهائياً؟')) {
-                await window.fbDeleteStudent(key);
+                let db = getLocalDatabase();
+                delete db[key];
+                saveLocalDatabase(db);
                 renderAdminLists();
             }
         }
 
-        async function saveState() {
+        function saveState() {
             if (!currentStudentKey) return;
             updateDashboard();
             renderPagesGrid();
@@ -736,12 +666,12 @@
             renderSurahList();
             updatePageButtons();
             
-            if (window.fbSaveStudent) {
-                await window.fbSaveStudent(currentStudentKey, appState);
-            }
+            let db = getLocalDatabase();
+            db[currentStudentKey] = appState;
+            saveLocalDatabase(db);
         }
 
-        async function openLeaderboard() {
+        function openLeaderboard() {
             document.getElementById('leaderboardModal').style.display = 'flex';
             filterLeaderboard('الكل');
         }
@@ -750,12 +680,10 @@
             document.getElementById('leaderboardModal').style.display = 'none';
         }
 
-        async function filterLeaderboard(groupFilter) {
+        function filterLeaderboard(groupFilter) {
             const listEl = document.getElementById('leaderboardList');
-            listEl.innerHTML = '<div class="loader">جاري جلب إنجازات الطلاب أونلاين...</div>';
-
-            let studentsList = await window.fbGetAllStudents();
-            studentsList = studentsList.filter(s => s.status === 'approved');
+            let db = getLocalDatabase();
+            let studentsList = Object.values(db).filter(s => s.status === 'approved');
 
             if (groupFilter !== 'الكل') {
                 studentsList = studentsList.filter(s => s.group === groupFilter);
@@ -789,7 +717,7 @@
                     </div>
                     <div style="text-align:left;">
                         <strong style="color:var(--primary);">${pages} / 604 صفحة (${pct}%)</strong>
-                        <small style="display:block; color:var(--text-muted);">ختمة التدبر: ${tadabbur} صفحة | الختمات المنجزة: ${st.completedKhatmahs || 0}</small>
+                        <small style="display:block; color:var(--text-muted);">ختمة التدبر: ${tadabbur} صفحة | الختمات: ${st.completedKhatmahs || 0}</small>
                     </div>
                 `;
                 listEl.appendChild(row);
@@ -806,79 +734,40 @@
         }
 
         async function fetchQuranMeta() {
-            // بيانات الأجزاء متاحة محلياً حتى لو تعذر الاتصال بمصدر البيانات.
-            partsMetadata = [];
-            for (let i = 1; i <= 30; i++) {
-                const startP = (i - 1) * 20 + 1;
-                const endP = i === 30 ? 604 : i * 20;
-                partsMetadata.push({ number: i, name: `الجزء ${i}`, startPage: Math.min(startP, 604), endPage: Math.min(endP, 604) });
-            }
-
             try {
-                const response = await fetchWithTimeout('https://api.alquran.cloud/v1/meta', 10000);
-                if (!response.ok) throw new Error(`Quran metadata HTTP ${response.status}`);
-                const data = await response.json();
-                if (!data?.data?.surahs?.references || !data?.data?.pages?.references) throw new Error('صيغة بيانات الفهرس غير متوقعة');
+                partsMetadata = [];
+                for (let i = 1; i <= 30; i++) {
+                    const startP = (i - 1) * 20 + 1;
+                    const endP = i === 30 ? 604 : i * 20;
+                    partsMetadata.push({ number: i, name: `الجزء ${i}`, startPage: Math.min(startP, 604), endPage: Math.min(endP, 604) });
+                }
+
+                const res = await fetch('https://api.alquran.cloud/v1/meta');
+                const data = await res.json();
                 const surahs = data.data.surahs.references;
                 const pages = data.data.pages.references;
+
                 surahsMetadata = surahs.map(s => {
                     let startPage = 1;
                     for (let p = 0; p < pages.length; p++) {
                         if (pages[p].surah === s.number && pages[p].ayah === 1) { startPage = p + 1; break; }
-                        if (pages[p].surah > s.number) { startPage = p; break; }
+                        else if (pages[p].surah > s.number) { startPage = p; break; }
                     }
                     return { number: s.number, name: s.name, startPage };
                 });
+
                 for (let i = 0; i < surahsMetadata.length; i++) {
-                    const nextStart = surahsMetadata[i + 1]?.startPage;
-                    surahsMetadata[i].endPage = nextStart ? Math.max(surahsMetadata[i].startPage, nextStart - 1) : 604;
+                    if (i < surahsMetadata.length - 1) {
+                        const nextStart = surahsMetadata[i + 1].startPage;
+                        surahsMetadata[i].endPage = surahsMetadata[i].startPage === nextStart ? nextStart : Math.max(surahsMetadata[i].startPage, nextStart - 1);
+                    } else {
+                        surahsMetadata[i].endPage = 604;
+                    }
                 }
-            } catch (primaryError) {
-                console.warn('تعذر تحميل فهرس القرآن من المصدر الأول:', primaryError);
-                try {
-                    const response = await fetchWithTimeout('https://api.quran.com/api/v4/chapters?language=ar', 10000);
-                    if (!response.ok) throw new Error(`Quran.com HTTP ${response.status}`);
-                    const data = await response.json();
-                    if (!Array.isArray(data.chapters)) throw new Error('صيغة فهرس السور غير متوقعة');
-                    // فهرس السور البديل: نعرض السور ونسمح بفتحها من الصفحة الأولى
-                    // المعروفة في بيانات المصحف عند توفرها لاحقاً.
-                    surahsMetadata = data.chapters.map(ch => ({
-                        number: ch.id,
-                        name: ch.name_arabic || ch.name_simple || `السورة ${ch.id}`,
-                        startPage: Number(ch.pages?.[0]) || 1,
-                        endPage: Number(ch.pages?.[1]) || 604
-                    }));
-                } catch (fallbackError) {
-                    console.error('تعذر تحميل فهرس القرآن من المصدرين:', fallbackError);
-                    surahsMetadata = [];
-                    showQuranLoadMessage('تعذر تحميل فهرس السور حالياً. يمكنك استخدام أرقام الصفحات والمحاولة مجدداً.');
-                }
-            }
-            renderPartsList();
-            renderSurahList();
-            updateDashboard();
-        }
-
-        function fetchWithTimeout(url, timeoutMs = 12000) {
-            const controller = new AbortController();
-            const timer = setTimeout(() => controller.abort(), timeoutMs);
-            return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
-        }
-
-        function showQuranLoadMessage(message) {
-            const container = document.getElementById('ayahsContainer');
-            if (container) {
-                container.innerHTML = '';
-                const box = document.createElement('div');
-                box.className = 'loader';
-                box.textContent = message;
-                const retry = document.createElement('button');
-                retry.className = 'btn btn-primary';
-                retry.textContent = 'إعادة المحاولة';
-                retry.style.marginTop = '1rem';
-                retry.onclick = () => loadPage(appState.currentPage);
-                container.append(box, retry);
-            }
+                renderPartsList();
+                renderSurahList();
+                updateDashboard();
+            } catch (e) { console.error(e); }
         }
 
         function isPartCompleted(part) {
@@ -997,57 +886,16 @@
             document.getElementById('pageTitle').textContent = `صفحة ${pageNumber}`;
 
             try {
-                let ayahs = null;
-                let lastError = null;
-
-                // المصدر الأساسي
-                try {
-                    const res = await fetchWithTimeout(`https://api.alquran.cloud/v1/page/${pageNumber}/quran-uthmani`, 12000);
-                    if (!res.ok) throw new Error(`AlQuran Cloud HTTP ${res.status}`);
-                    const data = await res.json();
-                    if (data?.code !== 200 || !Array.isArray(data?.data?.ayahs) || !data.data.ayahs.length) {
-                        throw new Error('بيانات الصفحة من المصدر الأول غير مكتملة');
-                    }
-                    ayahs = data.data.ayahs;
-                } catch (error) {
-                    lastError = error;
-                    console.warn('فشل المصدر الأول لآيات القرآن:', error);
-                }
-
-                // مصدر بديل مستقل عند تعطل المصدر الأساسي
-                if (!ayahs) {
-                    try {
-                        const url = `https://api.quran.com/api/v4/verses/by_page/${pageNumber}?language=ar&words=false&per_page=50&fields=text_uthmani,verse_key,page_number,juz_number,chapter_id`;
-                        const res = await fetchWithTimeout(url, 15000);
-                        if (!res.ok) throw new Error(`Quran.com HTTP ${res.status}`);
-                        const data = await res.json();
-                        if (!Array.isArray(data?.verses) || !data.verses.length) throw new Error('لم يعثر المصدر البديل على آيات لهذه الصفحة');
-                        const chapterNames = new Map((surahsMetadata || []).map(s => [s.number, s.name]));
-                        ayahs = data.verses.map(v => {
-                            const parts = String(v.verse_key || '').split(':');
-                            const chapterId = Number(v.chapter_id || parts[0]);
-                            return {
-                                text: v.text_uthmani,
-                                numberInSurah: Number(parts[1]) || 0,
-                                juz: Number(v.juz_number) || 1,
-                                surah: { number: chapterId, name: chapterNames.get(chapterId) || `السورة ${chapterId}` }
-                            };
-                        });
-                    } catch (error) {
-                        lastError = error;
-                        console.error('فشل المصدر البديل لآيات القرآن:', error);
-                    }
-                }
-
-                if (!ayahs || !ayahs.length) throw lastError || new Error('لم تصل بيانات الآيات');
-                const juzNumber = ayahs[0].juz || 1;
-                const surahNames = [...new Set(ayahs.map(a => a.surah?.name).filter(Boolean))].join(' • ');
+                const res = await fetch(`https://api.alquran.cloud/v1/page/${pageNumber}/quran-uthmani`);
+                const data = await res.json();
+                const ayahs = data.data.ayahs;
+                const juzNumber = ayahs[0].juz;
+                const surahNames = [...new Set(ayahs.map(a => a.surah.name))].join(' • ');
                 document.getElementById('pageSubMeta').textContent = `الجزء ${juzNumber} • ${surahNames}`;
                 renderPageAyahs(ayahs);
                 updatePageButtons();
             } catch (error) {
-                console.error('تعذر تحميل صفحة القرآن:', error);
-                showQuranLoadMessage('تعذر الاتصال بمصادر القرآن حالياً. تحقق من الإنترنت ثم اضغط «إعادة المحاولة».');
+                container.innerHTML = '<div class="loader">تعذر تحميل الصفحة، تأكد من اتصال الإنترنت.</div>';
             }
         }
 
@@ -1070,11 +918,7 @@
                     }
                 }
                 const span = document.createElement('span');
-                const textNode = document.createTextNode(`${text} `);
-                const number = document.createElement('span');
-                number.className = 'ayah-num';
-                number.textContent = ayah.numberInSurah;
-                span.append(textNode, number, document.createTextNode(' '));
+                span.innerHTML = `${text} <span class="ayah-num">${ayah.numberInSurah}</span> `;
                 container.appendChild(span);
             });
         }
@@ -1150,7 +994,7 @@
             document.getElementById('completedKhatmahsCount').textContent = appState.completedKhatmahs;
         }
 
-        async function startNewKhatmah() {
+        function startNewKhatmah() {
             const doneCount = Object.keys(appState.completedPages).length;
             const isFull = doneCount === TOTAL_PAGES;
             const msg = isFull
@@ -1162,7 +1006,7 @@
                 appState.completedPages = {};
                 appState.tadabburPages = {};
                 appState.currentPage = 1;
-                await saveState();
+                saveState();
                 loadPage(1);
             }
         }
@@ -1173,8 +1017,10 @@
             const savedId = localStorage.getItem('ithmar3_active_student_id');
             const savedPwd = localStorage.getItem('ithmar3_active_student_pwd');
 
-            if (savedId && savedPwd && window.fbGetStudent) {
-                const studentData = await window.fbGetStudent(savedId);
+            if (savedId && savedPwd) {
+                let db = getLocalDatabase();
+                const studentData = db[savedId];
+                // التحقق الصارم من أن الطالب مقبول (approved) وباسوورده صحيح
                 if (studentData && studentData.status === 'approved' && studentData.passwordHash === savedPwd) {
                     currentStudentKey = savedId;
                     appState = studentData;

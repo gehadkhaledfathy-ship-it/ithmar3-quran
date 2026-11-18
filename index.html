@@ -79,6 +79,7 @@
         .khatmah-badge { background: rgba(0, 0, 0, 0.22); padding: 0.35rem 0.9rem; border-radius: 50px; display: flex; align-items: center; gap: 0.8rem; font-size: 0.85rem; }
         .khatmah-count { font-weight: 700; color: #f7d994; font-size: 1rem; }
 
+        /* شريط حكمة اليوم وتاريخ اليوم */
         .info-ticker-bar { max-width: 1320px; margin: 1rem auto 0; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr auto; gap: 1rem; }
         @media(max-width: 768px) { .info-ticker-bar { grid-template-columns: 1fr; } }
         .wisdom-box { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 0.7rem 1.2rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; box-shadow: var(--shadow); color: var(--primary); font-weight: 600; }
@@ -141,7 +142,7 @@
         .status-pill { padding: 0.35rem 0.9rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; }
         .status-pill.done { background-color: var(--done-bg); color: var(--done-text); }
         .status-pill.pending { background-color: var(--bg-subtle); color: var(--text-muted); }
-        .loader { text-align: center; padding: 4rem 1rem; color: var(--text-muted); font-size: 1.1rem; font-family: 'Tajawal', sans-serif; }
+        .loader { text-align: center; padding: 4rem 1rem; color: var(--text-muted); font-size: 1.1rem; }
 
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; padding: 1rem; z-index: 1100; }
         .modal-card { background: var(--bg-card); width: 100%; max-width: 720px; max-height: 85vh; border-radius: 20px; padding: 1.8rem; border: 1px solid var(--border-color); display: flex; flex-direction: column; }
@@ -217,7 +218,7 @@
         </div>
     </div>
 
-    <!-- نافذة لوحة تحكم المشرف -->
+    <!-- نافذة لوحة تحكم المشرف (إدارة الطلبات والطلاب) -->
     <div class="modal-overlay" id="adminDashboardModal">
         <div class="modal-card">
             <div class="modal-header">
@@ -293,7 +294,7 @@
         </div>
     </header>
 
-    <!-- شريط معلومات اليوم -->
+    <!-- شريط معلومات اليوم: الحكمة اليومية والتاريخ -->
     <div class="info-ticker-bar">
         <div class="wisdom-box">
             <span>💡 حكمة اليوم:</span>
@@ -463,38 +464,11 @@
         let surahsMetadata = [];
         let partsMetadata = [];
 
-        // أسماء السور بالترتيب للاستخدام الاحتياطي السريع
-        const SURAH_NAMES_AR = [
-            "", "سُورَةُ ٱلْفَاتِحَةِ", "سُورَةُ البَقَرَةِ", "سُورَةُ آلِ عِمْرَانَ", "سُورَةُ النِّسَاءِ", "سُورَةُ المَائـِدَةِ",
-            "سُورَةُ الأَنْعَامِ", "سُورَةُ الأَعْرَافِ", "سُورَةُ الأَنفَالِ", "سُورَةُ التَّوْبَةِ", "سُورَةُ يُونُسَ",
-            "سُورَةُ هُودٍ", "سُورَةُ يُوسُفَ", "سُورَةُ الرَّعْدِ", "سُورَةُ إِبْرَاهِيمَ", "سُورَةُ الحِجْرِ",
-            "سُورَةُ النَّحْلِ", "سُورَةُ الإِسْرَاءِ", "سُورَةُ الكَهْفِ", "سُورَةُ مَرْيَمَ", "سُورَةُ طه",
-            "سُورَةُ الأَنبِيَاءِ", "سُورَةُ الحَجِّ", "سُورَةُ المُؤْمِنُونَ", "سُورَةُ النُّورِ", "سُورَةُ الفُرْقَانِ",
-            "سُورَةُ الشُّعَرَاءِ", "سُورَةُ النَّمْلِ", "سُورَةُ القَصَصِ", "سُورَةُ العَنكَبُوتِ", "سُورَةُ الرُّومِ",
-            "سُورَةُ لُقْمَانَ", "سُورَةُ السَّجْدَةِ", "سُورَةُ الأَحْزَابِ", "سُورَةُ سَبَإٍ", "سُورَةُ فَاطِرٍ",
-            "سُورَةُ يسٓ", "سُورَةُ الصَّافَّاتِ", "سُورَةُ صٓ", "سُورَةُ الزُّمَرِ", "سُورَةُ غَافِرٍ",
-            "سُورَةُ فُصِّلَتْ", "سُورَةُ الشُّورَىٰ", "سُورَةُ الزُّخْرُفِ", "سُورَةُ الدُّخَانِ", "سُورَةُ الجَاثِيَةِ",
-            "سُورَةُ الأَحْقَافِ", "سُورَةُ مُحَمَّدٍ", "سُورَةُ الفَتْحِ", "سُورَةُ الحُجُرَاتِ", "سُورَةُ قٓ",
-            "سُورَةُ الذَّارِيَاتِ", "سُورَةُ الطُّورِ", "سُورَةُ النَّجْمِ", "سُورَةُ القَمَرِ", "سُورَةُ الرَّحْمَٰن",
-            "سُورَةُ الوَاقِعَةِ", "سُورَةُ الحَدِيدِ", "سُورَةُ المُجَادِلَةِ", "سُورَةُ الحَشْرِ", "سُورَةُ المُمْتَحَنَةِ",
-            "سُورَةُ الصَّفِّ", "سُورَةُ الجُمُعَةِ", "سُورَةُ المُنَافِقُونَ", "سُورَةُ التَّغَابُنِ", "سُورَةُ الطَّلَاقِ",
-            "سُورَةُ التَّحْرِيمِ", "سُورَةُ المُلْكِ", "سُورَةُ القَلَمِ", "سُورَةُ الحَاقَّةِ", "سُورَةُ المَعَارِجِ",
-            "سُورَةُ نُوحٍ", "سُورَةُ الجِنِّ", "سُورَةُ المُزَّمِّلِ", "سُورَةُ المُدَّثِّرِ", "سُورَةُ القِيَامَةِ",
-            "سُورَةُ الإِنسَانِ", "سُورَةُ المُرْسَلَاتِ", "سُورَةُ النَّبَإِ", "سُورَةُ النَّازِعَاتِ", "سُورَةُ عَبَسَ",
-            "سُورَةُ التَّكْوِيرِ", "سُورَةُ الانفِطَارِ", "سُورَةُ المُطَفِّفِينَ", "سُورَةُ الانشِقَاقِ", "سُورَةُ البُرُوجِ",
-            "سُورَةُ الطَّارِقِ", "سُورَةُ الأَعْلَىٰ", "سُورَةُ الغَاشِيَةِ", "سُورَةُ الفَجْرِ", "سُورَةُ البَلَدِ",
-            "سُورَةُ الشَّمْسِ", "سُورَةُ اللَّيْلِ", "سُورَةُ الضُّحَىٰ", "سُورَةُ الشَّرْحِ", "سُورَةُ التِّينِ",
-            "سُورَةُ العَلَقِ", "سُورَةُ القَدْرِ", "سُورَةُ البَيِّنَةِ", "سُورَةُ الزَّلْزَلَةِ", "سُورَةُ العَادِيَاتِ",
-            "سُورَةُ القَارِعَةِ", "سُورَةُ التَّكَاثُرِ", "سُورَةُ العَصْرِ", "سُورَةُ الهُمَزَةِ", "سُورَةُ الفِيلِ",
-            "سُورَةُ قُرَيْشٍ", "سُورَةُ المَاعُونِ", "سُورَةُ الكَوْثَرِ", "سُورَةُ الكَافِرُونَ", "سُورَةُ النَّصْرِ",
-            "سُورَةُ المَسَدِ", "سُورَةُ الإِخْلَاصِ", "سُورَةُ الفَلَقِ", "سُورَةُ النَّاسِ"
-        ];
-
         let appState = {
             name: '',
             group: '',
-            passwordHash: '',
-            status: 'pending',
+            passwordHash: '', // تخزين كلمة المرور مشفرة لحماية حساب الطالب
+            status: 'pending', // pending | approved
             khatmahNumber: 1,
             completedKhatmahs: 0,
             currentPage: 1,
@@ -502,6 +476,7 @@
             tadabburPages: {}
         };
 
+        // دالة تشفير كلمة المرور (SHA-256) لضمان عدم ظهورها كنص مكشوف
         async function hashPassword(password) {
             const msgUint8 = new TextEncoder().encode(password);
             const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
@@ -521,6 +496,7 @@
             }
         }
 
+        // حكم متجددة يومياً
         const wisdoms = [
             "خُذِ العِفَّةَ وَالحَياءَ عُدَّةً، وَتَمَسَّكْ بِالقُرآنِ عِصْمَةً.",
             "مَنْ عَمِلَ بِمَا عَلِمَ، أورثه الله عِلْمَ مَا لَمْ يَعْلَمْ.",
@@ -574,6 +550,7 @@
                 let existingStudent = await window.fbGetStudent(currentStudentKey);
 
                 if (existingStudent) {
+                    // إذا كان الحساب قديماً أو تم تصفير كلمة مروره من المشرف، يتم اعتماد كلمة المرور الجديدة
                     if (!existingStudent.passwordHash) {
                         existingStudent.passwordHash = hashedInputPwd;
                         await window.fbSaveStudent(currentStudentKey, existingStudent);
@@ -586,11 +563,12 @@
                     }
                     appState = existingStudent;
                 } else {
+                    // إنشاء حساب طالب جديد مع كلمة مروره الخاصة
                     appState = {
                         name: name,
                         group: selectedGroup,
                         passwordHash: hashedInputPwd,
-                        status: 'pending',
+                        status: 'pending', // معلق بانتظار موافقة المشرف
                         khatmahNumber: 1,
                         completedKhatmahs: 0,
                         currentPage: 1,
@@ -645,8 +623,13 @@
             }
         }
 
-        function openAdminLoginModal() { document.getElementById('adminLoginModal').style.display = 'flex'; }
-        function closeAdminLoginModal() { document.getElementById('adminLoginModal').style.display = 'none'; }
+        // تحكم المشرف بكلمة السر "123"
+        function openAdminLoginModal() {
+            document.getElementById('adminLoginModal').style.display = 'flex';
+        }
+        function closeAdminLoginModal() {
+            document.getElementById('adminLoginModal').style.display = 'none';
+        }
         function verifyAdminPassword() {
             const pwd = document.getElementById('adminPasswordInput').value;
             if (pwd === '123') {
@@ -662,7 +645,9 @@
             document.getElementById('adminDashboardModal').style.display = 'flex';
             renderAdminLists();
         }
-        function closeAdminDashboard() { document.getElementById('adminDashboardModal').style.display = 'none'; }
+        function closeAdminDashboard() {
+            document.getElementById('adminDashboardModal').style.display = 'none';
+        }
 
         async function renderAdminLists() {
             const reqListEl = document.getElementById('adminRequestsList');
@@ -674,6 +659,7 @@
             const pending = allStudents.filter(s => s.status === 'pending');
             const approved = allStudents.filter(s => s.status === 'approved');
 
+            // طلبات معلقة
             if (pending.length === 0) {
                 reqListEl.innerHTML = '<div style="color:var(--text-muted); padding:0.5rem;">لا توجد طلبات معلقة حالياً.</div>';
             } else {
@@ -693,6 +679,7 @@
                 });
             }
 
+            // الطلاب المقبولون
             if (approved.length === 0) {
                 stuListEl.innerHTML = '<div style="color:var(--text-muted); padding:0.5rem;">لا يوجد طلاب مسجلون بعد.</div>';
             } else {
@@ -759,7 +746,9 @@
             filterLeaderboard('الكل');
         }
 
-        function closeLeaderboard() { document.getElementById('leaderboardModal').style.display = 'none'; }
+        function closeLeaderboard() {
+            document.getElementById('leaderboardModal').style.display = 'none';
+        }
 
         async function filterLeaderboard(groupFilter) {
             const listEl = document.getElementById('leaderboardList');
@@ -817,6 +806,7 @@
         }
 
         async function fetchQuranMeta() {
+            // بيانات الأجزاء متاحة محلياً حتى لو تعذر الاتصال بمصدر البيانات.
             partsMetadata = [];
             for (let i = 1; i <= 30; i++) {
                 const startP = (i - 1) * 20 + 1;
@@ -825,47 +815,70 @@
             }
 
             try {
-                const res = await fetch('https://api.alquran.cloud/v1/meta');
-                if (!res.ok) throw new Error('Meta API failed');
-                const data = await res.json();
+                const response = await fetchWithTimeout('https://api.alquran.cloud/v1/meta', 10000);
+                if (!response.ok) throw new Error(`Quran metadata HTTP ${response.status}`);
+                const data = await response.json();
+                if (!data?.data?.surahs?.references || !data?.data?.pages?.references) throw new Error('صيغة بيانات الفهرس غير متوقعة');
                 const surahs = data.data.surahs.references;
                 const pages = data.data.pages.references;
-
                 surahsMetadata = surahs.map(s => {
                     let startPage = 1;
                     for (let p = 0; p < pages.length; p++) {
                         if (pages[p].surah === s.number && pages[p].ayah === 1) { startPage = p + 1; break; }
-                        else if (pages[p].surah > s.number) { startPage = p; break; }
+                        if (pages[p].surah > s.number) { startPage = p; break; }
                     }
                     return { number: s.number, name: s.name, startPage };
                 });
-
                 for (let i = 0; i < surahsMetadata.length; i++) {
-                    if (i < surahsMetadata.length - 1) {
-                        const nextStart = surahsMetadata[i + 1].startPage;
-                        surahsMetadata[i].endPage = surahsMetadata[i].startPage === nextStart ? nextStart : Math.max(surahsMetadata[i].startPage, nextStart - 1);
-                    } else {
-                        surahsMetadata[i].endPage = 604;
-                    }
+                    const nextStart = surahsMetadata[i + 1]?.startPage;
+                    surahsMetadata[i].endPage = nextStart ? Math.max(surahsMetadata[i].startPage, nextStart - 1) : 604;
                 }
-            } catch (e) {
-                // خادم احتياطي لفهرس السور في حال تعطل الخادم الأول
+            } catch (primaryError) {
+                console.warn('تعذر تحميل فهرس القرآن من المصدر الأول:', primaryError);
                 try {
-                    const res2 = await fetch('https://api.quran.com/api/v4/chapters?language=ar');
-                    const data2 = await res2.json();
-                    surahsMetadata = data2.chapters.map(c => ({
-                        number: c.id,
-                        name: `سُورَةُ ${c.name_arabic}`,
-                        startPage: c.pages[0],
-                        endPage: c.pages[1]
+                    const response = await fetchWithTimeout('https://api.quran.com/api/v4/chapters?language=ar', 10000);
+                    if (!response.ok) throw new Error(`Quran.com HTTP ${response.status}`);
+                    const data = await response.json();
+                    if (!Array.isArray(data.chapters)) throw new Error('صيغة فهرس السور غير متوقعة');
+                    // فهرس السور البديل: نعرض السور ونسمح بفتحها من الصفحة الأولى
+                    // المعروفة في بيانات المصحف عند توفرها لاحقاً.
+                    surahsMetadata = data.chapters.map(ch => ({
+                        number: ch.id,
+                        name: ch.name_arabic || ch.name_simple || `السورة ${ch.id}`,
+                        startPage: Number(ch.pages?.[0]) || 1,
+                        endPage: Number(ch.pages?.[1]) || 604
                     }));
-                } catch (e2) {
-                    console.error('تعذر تحميل فهرس السور:', e2);
+                } catch (fallbackError) {
+                    console.error('تعذر تحميل فهرس القرآن من المصدرين:', fallbackError);
+                    surahsMetadata = [];
+                    showQuranLoadMessage('تعذر تحميل فهرس السور حالياً. يمكنك استخدام أرقام الصفحات والمحاولة مجدداً.');
                 }
             }
             renderPartsList();
             renderSurahList();
             updateDashboard();
+        }
+
+        function fetchWithTimeout(url, timeoutMs = 12000) {
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), timeoutMs);
+            return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+        }
+
+        function showQuranLoadMessage(message) {
+            const container = document.getElementById('ayahsContainer');
+            if (container) {
+                container.innerHTML = '';
+                const box = document.createElement('div');
+                box.className = 'loader';
+                box.textContent = message;
+                const retry = document.createElement('button');
+                retry.className = 'btn btn-primary';
+                retry.textContent = 'إعادة المحاولة';
+                retry.style.marginTop = '1rem';
+                retry.onclick = () => loadPage(appState.currentPage);
+                container.append(box, retry);
+            }
         }
 
         function isPartCompleted(part) {
@@ -974,87 +987,67 @@
             else alert('يرجى إدخال رقم صفحة صحيح بين 1 و 604');
         }
 
-        // جلب بيانات الصفحة من المصدر الأساسي أو الاحتياطي مع حفظها في ذاكرة المتصفح
-        async function fetchPageDataWithFallback(pageNumber) {
-            const cacheKey = `ithmar3_quran_page_v1_${pageNumber}`;
-            const cached = localStorage.getItem(cacheKey);
-            if (cached) {
-                try {
-                    return JSON.parse(cached);
-                } catch (e) {}
-            }
-
-            // المحاولة 1: خادم AlQuran Cloud
-            try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 7000);
-                const res = await fetch(`https://api.alquran.cloud/v1/page/${pageNumber}/quran-uthmani`, { signal: controller.signal });
-                clearTimeout(timeoutId);
-
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data && data.data && data.data.ayahs) {
-                        const formatted = {
-                            juz: data.data.ayahs[0].juz,
-                            ayahs: data.data.ayahs.map(a => ({
-                                text: a.text,
-                                numberInSurah: a.numberInSurah,
-                                surahNumber: a.surah.number,
-                                surahName: a.surah.name
-                            }))
-                        };
-                        try { localStorage.setItem(cacheKey, JSON.stringify(formatted)); } catch (e) {}
-                        return formatted;
-                    }
-                }
-            } catch (err1) {
-                console.warn('الخادم الأساسي لم يستجب، جاري التحويل للخادم الاحتياطي...', err1);
-            }
-
-            // المحاولة 2: خادم Quran.com الرسمي (احتياطي فائق السرعة والاستقرار)
-            const res2 = await fetch(`https://api.quran.com/api/v4/verses/by_page/${pageNumber}?words=false&fields=text_uthmani,verse_key,juz_number&per_page=50`);
-            if (!res2.ok) throw new Error('فشل الاتصال بجميع خوادم المصحف');
-            const data2 = await res2.json();
-
-            const formatted2 = {
-                juz: data2.verses[0].juz_number,
-                ayahs: data2.verses.map(v => {
-                    const [surahNum, ayahNum] = v.verse_key.split(':').map(Number);
-                    return {
-                        text: v.text_uthmani,
-                        numberInSurah: ayahNum,
-                        surahNumber: surahNum,
-                        surahName: SURAH_NAMES_AR[surahNum] || `سورة ${surahNum}`
-                    };
-                })
-            };
-            try { localStorage.setItem(cacheKey, JSON.stringify(formatted2)); } catch (e) {}
-            return formatted2;
-        }
-
         async function loadPage(pageNumber) {
             if (pageNumber < 1 || pageNumber > TOTAL_PAGES) return;
             appState.currentPage = pageNumber;
             saveState();
 
             const container = document.getElementById('ayahsContainer');
-            container.innerHTML = '<div class="loader">جاري تحميل آيات الصفحة الكريمة...</div>';
+            container.innerHTML = '<div class="loader">جاري تحميل آيات الصفحة...</div>';
             document.getElementById('pageTitle').textContent = `صفحة ${pageNumber}`;
 
             try {
-                const pageData = await fetchPageDataWithFallback(pageNumber);
-                const surahNames = [...new Set(pageData.ayahs.map(a => a.surahName))].join(' • ');
-                document.getElementById('pageSubMeta').textContent = `الجزء ${pageData.juz} • ${surahNames}`;
-                renderPageAyahs(pageData.ayahs);
+                let ayahs = null;
+                let lastError = null;
+
+                // المصدر الأساسي
+                try {
+                    const res = await fetchWithTimeout(`https://api.alquran.cloud/v1/page/${pageNumber}/quran-uthmani`, 12000);
+                    if (!res.ok) throw new Error(`AlQuran Cloud HTTP ${res.status}`);
+                    const data = await res.json();
+                    if (data?.code !== 200 || !Array.isArray(data?.data?.ayahs) || !data.data.ayahs.length) {
+                        throw new Error('بيانات الصفحة من المصدر الأول غير مكتملة');
+                    }
+                    ayahs = data.data.ayahs;
+                } catch (error) {
+                    lastError = error;
+                    console.warn('فشل المصدر الأول لآيات القرآن:', error);
+                }
+
+                // مصدر بديل مستقل عند تعطل المصدر الأساسي
+                if (!ayahs) {
+                    try {
+                        const url = `https://api.quran.com/api/v4/verses/by_page/${pageNumber}?language=ar&words=false&per_page=50&fields=text_uthmani,verse_key,page_number,juz_number,chapter_id`;
+                        const res = await fetchWithTimeout(url, 15000);
+                        if (!res.ok) throw new Error(`Quran.com HTTP ${res.status}`);
+                        const data = await res.json();
+                        if (!Array.isArray(data?.verses) || !data.verses.length) throw new Error('لم يعثر المصدر البديل على آيات لهذه الصفحة');
+                        const chapterNames = new Map((surahsMetadata || []).map(s => [s.number, s.name]));
+                        ayahs = data.verses.map(v => {
+                            const parts = String(v.verse_key || '').split(':');
+                            const chapterId = Number(v.chapter_id || parts[0]);
+                            return {
+                                text: v.text_uthmani,
+                                numberInSurah: Number(parts[1]) || 0,
+                                juz: Number(v.juz_number) || 1,
+                                surah: { number: chapterId, name: chapterNames.get(chapterId) || `السورة ${chapterId}` }
+                            };
+                        });
+                    } catch (error) {
+                        lastError = error;
+                        console.error('فشل المصدر البديل لآيات القرآن:', error);
+                    }
+                }
+
+                if (!ayahs || !ayahs.length) throw lastError || new Error('لم تصل بيانات الآيات');
+                const juzNumber = ayahs[0].juz || 1;
+                const surahNames = [...new Set(ayahs.map(a => a.surah?.name).filter(Boolean))].join(' • ');
+                document.getElementById('pageSubMeta').textContent = `الجزء ${juzNumber} • ${surahNames}`;
+                renderPageAyahs(ayahs);
                 updatePageButtons();
             } catch (error) {
-                console.error(error);
-                container.innerHTML = `
-                    <div class="loader">
-                        <p style="margin-bottom: 1rem;">تعذر تحميل الصفحة حالياً، يرجى التحقق من اتصال الإنترنت.</p>
-                        <button class="btn btn-primary" onclick="loadPage(${pageNumber})">🔄 إعادة المحاولة</button>
-                    </div>
-                `;
+                console.error('تعذر تحميل صفحة القرآن:', error);
+                showQuranLoadMessage('تعذر الاتصال بمصادر القرآن حالياً. تحقق من الإنترنت ثم اضغط «إعادة المحاولة».');
             }
         }
 
@@ -1066,20 +1059,22 @@
                 if (ayah.numberInSurah === 1) {
                     const banner = document.createElement('div');
                     banner.className = 'surah-banner';
-                    banner.textContent = ayah.surahName;
+                    banner.textContent = ayah.surah.name;
                     container.appendChild(banner);
-                    if (ayah.surahNumber !== 1 && ayah.surahNumber !== 9) {
+                    if (ayah.surah.number !== 1 && ayah.surah.number !== 9) {
                         const bismillah = document.createElement('div');
                         bismillah.className = 'bismillah';
                         bismillah.textContent = 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ';
                         container.appendChild(bismillah);
-                        text = text
-                            .replace('بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ', '')
-                            .replace('بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ', '');
+                        text = text.replace('بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ', '');
                     }
                 }
                 const span = document.createElement('span');
-                span.innerHTML = `${text} <span class="ayah-num">${ayah.numberInSurah}</span> `;
+                const textNode = document.createTextNode(`${text} `);
+                const number = document.createElement('span');
+                number.className = 'ayah-num';
+                number.textContent = ayah.numberInSurah;
+                span.append(textNode, number, document.createTextNode(' '));
                 container.appendChild(span);
             });
         }

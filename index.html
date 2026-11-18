@@ -58,6 +58,9 @@
         .login-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.2rem; }
         .form-group { text-align: right; margin-bottom: 1.1rem; }
         .form-group label { display: block; font-weight: 700; font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-main); }
+        .form-group small { display: block; font-size: 0.78rem; color: var(--text-muted); margin-top: 0.3rem; }
+        .password-wrapper { position: relative; display: flex; align-items: center; }
+        .toggle-pwd-btn { position: absolute; left: 10px; background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-family: 'Tajawal', sans-serif; font-size: 0.85rem; font-weight: 700; padding: 4px 8px; }
         .form-control { width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--border-color); border-radius: 10px; font-family: 'Tajawal', sans-serif; font-size: 1rem; background-color: var(--bg-main); color: var(--text-main); }
         .form-control:focus { outline: none; border-color: var(--primary); background-color: var(--bg-card); }
         .groups-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; margin-top: 0.4rem; }
@@ -97,6 +100,7 @@
         .btn-success { background-color: #1e824c; color: #ffffff; }
         .btn-accent { background-color: var(--accent); color: #ffffff; }
         .btn-danger { background-color: #dc2626; color: #ffffff; }
+        .btn-warning { background-color: #d97706; color: #ffffff; }
         .btn-outline { background-color: transparent; border: 1px solid var(--primary); color: var(--primary); }
         .btn-outline:hover { background-color: var(--primary-light); }
         .btn-ghost { background: rgba(255,255,255,0.15); color: #ffffff; border: 1px solid rgba(255,255,255,0.3); }
@@ -141,15 +145,15 @@
         .loader { text-align: center; padding: 4rem 1rem; color: var(--text-muted); font-size: 1.1rem; }
 
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; padding: 1rem; z-index: 1100; }
-        .modal-card { background: var(--bg-card); width: 100%; max-width: 700px; max-height: 85vh; border-radius: 20px; padding: 1.8rem; border: 1px solid var(--border-color); display: flex; flex-direction: column; }
+        .modal-card { background: var(--bg-card); width: 100%; max-width: 720px; max-height: 85vh; border-radius: 20px; padding: 1.8rem; border: 1px solid var(--border-color); display: flex; flex-direction: column; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1rem; }
         .leaderboard-list, .admin-list { overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 0.6rem; }
-        .leader-row, .admin-row { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1rem; background: var(--bg-main); border: 1px solid var(--border-color); border-radius: 12px; }
+        .leader-row, .admin-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; padding: 0.8rem 1rem; background: var(--bg-main); border: 1px solid var(--border-color); border-radius: 12px; }
     </style>
 </head>
 <body>
 
-    <!-- شاشة تسجيل الدخول / طلب الانضمام -->
+    <!-- شاشة تسجيل الدخول / إنشاء حساب محمي بكلمة مرور -->
     <div class="login-overlay" id="loginOverlay">
         <div class="login-card">
             <div class="theme-switcher">
@@ -161,11 +165,11 @@
 
             <div class="login-logo">🕌</div>
             <h1>مقرأة إثمار 3 (ذكور)</h1>
-            <p>أكاديمية الجيل الصاعد — أدخل بياناتك لإرسال طلب الانضمام للمشرف</p>
+            <p>أكاديمية الجيل الصاعد — سجل بياناتك وكلمة مرورك الخاصة</p>
 
             <div class="form-group">
                 <label for="studentNameInput">اسم الطالب الثلاثي:</label>
-                <input type="text" id="studentNameInput" class="form-control" placeholder="اكتب اسمك هنا...">
+                <input type="text" id="studentNameInput" class="form-control" placeholder="اكتب اسمك الثلاثي هنا...">
             </div>
 
             <div class="form-group">
@@ -178,8 +182,17 @@
                 </div>
             </div>
 
-            <button class="btn btn-primary" id="loginBtn" style="width: 100%; padding: 0.85rem; font-size: 1.05rem; margin-top: 0.6rem;" onclick="handleLogin()">
-                إرسال طلب الانضمام للمشرف ⬅
+            <div class="form-group">
+                <label for="studentPasswordInput">كلمة المرور الخاصة بك:</label>
+                <div class="password-wrapper">
+                    <input type="password" id="studentPasswordInput" class="form-control" placeholder="أنشئ كلمة مرور أو أدخل كلمتك المسجلة..." onkeyup="if(event.key==='Enter') handleLogin()">
+                    <button type="button" class="toggle-pwd-btn" onclick="toggleStudentPasswordVisibility()">إظهار</button>
+                </div>
+                <small>🔒 اختر كلمة مرور خاصة بك لحماية إنجازك ومنع دخول أي شخص آخر لحسابك.</small>
+            </div>
+
+            <button class="btn btn-primary" id="loginBtn" style="width: 100%; padding: 0.85rem; font-size: 1.05rem; margin-top: 0.4rem;" onclick="handleLogin()">
+                دخول / إرسال طلب الانضمام ⬅
             </button>
 
             <div style="margin-top: 1.2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
@@ -199,7 +212,7 @@
             </div>
             <div class="form-group">
                 <label>كلمة سر المشرف:</label>
-                <input type="password" id="adminPasswordInput" class="form-control" placeholder="أدخل كلمة السر...">
+                <input type="password" id="adminPasswordInput" class="form-control" placeholder="أدخل كلمة السر..." onkeyup="if(event.key==='Enter') verifyAdminPassword()">
             </div>
             <button class="btn btn-primary" style="width:100%;" onclick="verifyAdminPassword()">دخول لوحة التحكم</button>
         </div>
@@ -212,11 +225,11 @@
                 <h2 style="color:var(--primary);">🛡️ لوحة تحكم المشرف (الطلبات والطلاب)</h2>
                 <button class="btn btn-outline" onclick="closeAdminDashboard()">✕ إغلاق</button>
             </div>
-            <div style="margin-bottom:1rem; font-weight:700;">طلبات الانضمام المعلقة:</div>
+            <div style="margin-bottom:0.6rem; font-weight:700;">طلبات الانضمام المعلقة:</div>
             <div class="admin-list" id="adminRequestsList">
                 <div class="loader">جاري جلب الطلبات...</div>
             </div>
-            <div style="margin:1rem 0 0.5rem; font-weight:700;">الطلاب المقبولون حالياً:</div>
+            <div style="margin:1rem 0 0.6rem; font-weight:700;">الطلاب المقبولون حالياً:</div>
             <div class="admin-list" id="adminStudentsList">
                 <div class="loader">جاري جلب الطلاب...</div>
             </div>
@@ -454,6 +467,7 @@
         let appState = {
             name: '',
             group: '',
+            passwordHash: '', // تخزين كلمة المرور مشفرة لحماية حساب الطالب
             status: 'pending', // pending | approved
             khatmahNumber: 1,
             completedKhatmahs: 0,
@@ -462,6 +476,26 @@
             tadabburPages: {}
         };
 
+        // دالة تشفير كلمة المرور (SHA-256) لضمان عدم ظهورها كنص مكشوف
+        async function hashPassword(password) {
+            const msgUint8 = new TextEncoder().encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function toggleStudentPasswordVisibility() {
+            const input = document.getElementById('studentPasswordInput');
+            const btn = document.querySelector('.toggle-pwd-btn');
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = 'إخفاء';
+            } else {
+                input.type = 'password';
+                btn.textContent = 'إظهار';
+            }
+        }
+
         // حكم متجددة يومياً
         const wisdoms = [
             "خُذِ العِفَّةَ وَالحَياءَ عُدَّةً، وَتَمَسَّكْ بِالقُرآنِ عِصْمَةً.",
@@ -469,15 +503,13 @@
             "القرآن كنزٌ مَنْ حَازَهُ حَازَ الخَيْرَ كُلَّهُ.",
             "أفضل الذكر وأعظمه وأنفعه القرآن الكريم.",
             "تدبر القرآن مفتاح لقلوب الأبرار وعمارة للديار.",
-            "اصبر على طاعة الله، فإن حلاوة الأجر تذهب تلعب التعب."
+            "اصبر على طاعة الله، فإن حلاوة الأجر تذهب التعب."
         ];
 
         function initDailyInfo() {
-            // اختيار حكمة اليوم بناءً على رقم اليوم في السنة
             const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
             document.getElementById('dailyWisdomText').textContent = wisdoms[dayOfYear % wisdoms.length];
 
-            // عرض تاريخ اليوم
             const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
             document.getElementById('currentDateText').textContent = new Date().toLocaleDateString('ar-EG', options);
         }
@@ -499,43 +531,71 @@
 
         async function handleLogin() {
             const name = document.getElementById('studentNameInput').value.trim();
+            const rawPassword = document.getElementById('studentPasswordInput').value.trim();
+
             if (!name) return alert('يرجى كتابة اسم الطالب الثلاثي.');
             if (!selectedGroup) return alert('يرجى اختيار المجموعة.');
+            if (!rawPassword || rawPassword.length < 4) {
+                return alert('يرجى إدخال كلمة مرور خاصة بك لا تقل عن 4 أحرف أو أرقام.');
+            }
 
             const loginBtn = document.getElementById('loginBtn');
-            loginBtn.textContent = 'جاري إرسال الطلب للمشرف...';
+            loginBtn.textContent = 'جاري التحقق من البيانات...';
             loginBtn.disabled = true;
 
-            currentStudentKey = `${name}_${selectedGroup}`.replace(/\s+/g, '_');
-            
-            let existingStudent = await window.fbGetStudent(currentStudentKey);
-            if (existingStudent) {
-                appState = existingStudent;
-            } else {
-                appState = {
-                    name: name,
-                    group: selectedGroup,
-                    status: 'pending', // معلق بانتظار موافقة المشرف
-                    khatmahNumber: 1,
-                    completedKhatmahs: 0,
-                    currentPage: 1,
-                    completedPages: {},
-                    tadabburPages: {}
-                };
-                await window.fbSaveStudent(currentStudentKey, appState);
-            }
+            try {
+                const hashedInputPwd = await hashPassword(rawPassword);
+                currentStudentKey = `${name}_${selectedGroup}`.replace(/\s+/g, '_');
+                
+                let existingStudent = await window.fbGetStudent(currentStudentKey);
 
-            if (appState.status === 'pending') {
-                alert('تم إرسال طلب انضمامك بنجاح! بانتظار موافقة المشرف بكلمة السر ليتم فتح المقرأة لك.');
-                loginBtn.textContent = 'إرسال طلب الانضمام للمشرف ⬅';
+                if (existingStudent) {
+                    // إذا كان الحساب قديماً أو تم تصفير كلمة مروره من المشرف، يتم اعتماد كلمة المرور الجديدة
+                    if (!existingStudent.passwordHash) {
+                        existingStudent.passwordHash = hashedInputPwd;
+                        await window.fbSaveStudent(currentStudentKey, existingStudent);
+                        alert('تم ربط كلمة المرور الجديدة بحسابك بنجاح!');
+                    } else if (existingStudent.passwordHash !== hashedInputPwd) {
+                        alert('❌ كلمة المرور غير صحيحة! هذا الاسم مسجل بكلمة مرور مختلفة.');
+                        loginBtn.textContent = 'دخول / إرسال طلب الانضمام ⬅';
+                        loginBtn.disabled = false;
+                        return;
+                    }
+                    appState = existingStudent;
+                } else {
+                    // إنشاء حساب طالب جديد مع كلمة مروره الخاصة
+                    appState = {
+                        name: name,
+                        group: selectedGroup,
+                        passwordHash: hashedInputPwd,
+                        status: 'pending', // معلق بانتظار موافقة المشرف
+                        khatmahNumber: 1,
+                        completedKhatmahs: 0,
+                        currentPage: 1,
+                        completedPages: {},
+                        tadabburPages: {}
+                    };
+                    await window.fbSaveStudent(currentStudentKey, appState);
+                }
+
+                if (appState.status === 'pending') {
+                    alert('✅ تم حفظ حسابك وكلمة مرورك بنجاح! طلبك الآن بانتظار موافقة المشرف ليتم فتح المقرأة لك.');
+                    loginBtn.textContent = 'دخول / إرسال طلب الانضمام ⬅';
+                    loginBtn.disabled = false;
+                    return;
+                }
+
+                localStorage.setItem('ithmar3_active_student_id', currentStudentKey);
+                localStorage.setItem('ithmar3_active_student_pwd', hashedInputPwd);
+                loginBtn.textContent = 'دخول / إرسال طلب الانضمام ⬅';
                 loginBtn.disabled = false;
-                return;
+                enterApp();
+            } catch (err) {
+                console.error(err);
+                alert('حدث خطأ أثناء الاتصال، تأكد من اتصال الإنترنت وحاول مرة أخرى.');
+                loginBtn.textContent = 'دخول / إرسال طلب الانضمام ⬅';
+                loginBtn.disabled = false;
             }
-
-            localStorage.setItem('ithmar3_active_student_id', currentStudentKey);
-            loginBtn.textContent = 'دخول أونلاين ⬅';
-            loginBtn.disabled = false;
-            enterApp();
         }
 
         function enterApp() {
@@ -548,6 +608,8 @@
 
         function logout() {
             localStorage.removeItem('ithmar3_active_student_id');
+            localStorage.removeItem('ithmar3_active_student_pwd');
+            document.getElementById('studentPasswordInput').value = '';
             document.getElementById('loginOverlay').style.display = 'flex';
         }
 
@@ -555,6 +617,7 @@
             if (confirm('هل أنت متأكد من رغبتك في حذف حسابك نهائياً من السحابة؟')) {
                 await window.fbDeleteStudent(currentStudentKey);
                 localStorage.removeItem('ithmar3_active_student_id');
+                localStorage.removeItem('ithmar3_active_student_pwd');
                 alert('تم حذف الحساب بنجاح.');
                 location.reload();
             }
@@ -570,6 +633,7 @@
         function verifyAdminPassword() {
             const pwd = document.getElementById('adminPasswordInput').value;
             if (pwd === '123') {
+                document.getElementById('adminPasswordInput').value = '';
                 closeAdminLoginModal();
                 openAdminDashboard();
             } else {
@@ -626,7 +690,10 @@
                     row.className = 'admin-row';
                     row.innerHTML = `
                         <div><strong>${st.name}</strong> <span class="group-tag">${st.group}</span></div>
-                        <button class="btn btn-danger" style="padding:0.3rem 0.7rem; font-size:0.8rem;" onclick="removeStudentRecord('${key}')">حذف الطالب</button>
+                        <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                            <button class="btn btn-warning" style="padding:0.3rem 0.7rem; font-size:0.8rem;" onclick="resetStudentPassword('${key}')">🔑 تصفير كلمة السر</button>
+                            <button class="btn btn-danger" style="padding:0.3rem 0.7rem; font-size:0.8rem;" onclick="removeStudentRecord('${key}')">حذف الطالب</button>
+                        </div>
                     `;
                     stuListEl.appendChild(row);
                 });
@@ -639,7 +706,18 @@
                 st.status = 'approved';
                 await window.fbSaveStudent(key, st);
                 renderAdminLists();
-                alert(`تمت الموافقة على الطالب ${st.name}! يمكنه الآن تسجيل الدخول.`);
+                alert(`تمت الموافقة على الطالب ${st.name}! يمكنه الآن تسجيل الدخول بكلمة مروره.`);
+            }
+        }
+
+        async function resetStudentPassword(key) {
+            if (confirm('هل تريد تصفير كلمة مرور هذا الطالب ليتمكن من إنشاء كلمة مرور جديدة عند دخوله القادم؟')) {
+                let st = await window.fbGetStudent(key);
+                if (st) {
+                    st.passwordHash = '';
+                    await window.fbSaveStudent(key, st);
+                    alert(`تم تصفير كلمة مرور الطالب (${st.name}). أخبره بإدخال كلمة مرور جديدة عند تسجيل الدخول.`);
+                }
             }
         }
 
@@ -729,12 +807,11 @@
 
         async function fetchQuranMeta() {
             try {
-                // توليد بيانات الأجزاء (30 جزءاً - كل جزء حوالي 20-21 صفحة)
                 partsMetadata = [];
                 for (let i = 1; i <= 30; i++) {
-                    const startP = (i - 1) * 20 + (i > 1 ? 1 : 1);
+                    const startP = (i - 1) * 20 + 1;
                     const endP = i === 30 ? 604 : i * 20;
-                    partsMetadata.push({ number: i, name: `الجزء ${i}`, startPage: startP > 604 ? 604 : startP, endPage: endP > 604 ? 604 : endP });
+                    partsMetadata.push({ number: i, name: `الجزء ${i}`, startPage: Math.min(startP, 604), endPage: Math.min(endP, 604) });
                 }
 
                 const res = await fetch('https://api.alquran.cloud/v1/meta');
@@ -989,7 +1066,7 @@
             document.getElementById('completedKhatmahsCount').textContent = appState.completedKhatmahs;
         }
 
-        function startNewKhatmah() {
+        async function startNewKhatmah() {
             const doneCount = Object.keys(appState.completedPages).length;
             const isFull = doneCount === TOTAL_PAGES;
             const msg = isFull
@@ -1001,7 +1078,7 @@
                 appState.completedPages = {};
                 appState.tadabburPages = {};
                 appState.currentPage = 1;
-                saveState();
+                await saveState();
                 loadPage(1);
             }
         }
@@ -1010,12 +1087,17 @@
             initDailyInfo();
             await fetchQuranMeta();
             const savedId = localStorage.getItem('ithmar3_active_student_id');
-            if (savedId && window.fbGetStudent) {
+            const savedPwd = localStorage.getItem('ithmar3_active_student_pwd');
+
+            if (savedId && savedPwd && window.fbGetStudent) {
                 const studentData = await window.fbGetStudent(savedId);
-                if (studentData && studentData.status === 'approved') {
+                if (studentData && studentData.status === 'approved' && studentData.passwordHash === savedPwd) {
                     currentStudentKey = savedId;
                     appState = studentData;
                     enterApp();
+                } else {
+                    localStorage.removeItem('ithmar3_active_student_id');
+                    localStorage.removeItem('ithmar3_active_student_pwd');
                 }
             }
         };

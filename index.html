@@ -39,52 +39,6 @@
             --primary: #3b82f6; --primary-dark: #2563eb; --primary-light: #162b45; --accent: #60a5fa;
             --text-main: #f1f5f9; --text-muted: #94a3b8; --border-color: #1e334a; --page-border: #233b56;
             --done-bg: #133152; --done-border: #3b82f6; --done-text: #bae6fd;
-            --shadow: 0 6px 24px rgba(0, 0, 0, 0.5); --login-bg: linear-gradient(135deg, #070d14 0%, #102133أهلاً بك. هل تقصد أن نرجع زر "مشرف" إلى شكله السابق (مثل **"🔐 دخول لوحة تحكم المشرف"**) ونعيد نص الصندوق ليكون **"أدخل كلمة السر..."** كما كان في النسخة السابقة؟ 
-
-تفضل الكود المحدث بالكامل والذي يعيد زر شاشة الدخول وصندوق الباسوورد إلى التصميم القديم، مع الحفاظ بالكامل على نظام طلبات الانضمام الإلزامي وصلاحيات المشرف بكلمة المرور `123`:
-
-```html
-<!DOCTYPE html>
-<html lang="ar" dir="rtl" data-theme="light">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مقرأة إثمار 3 (ذكور) | النظام الشامل</title>
-    <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
-    <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
-    <link href="[https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Tajawal:wght@400;500;700&display=swap](https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Tajawal:wght@400;500;700&display=swap)" rel="stylesheet">
-    
-    <style>
-        :root, [data-theme="light"] {
-            --bg-main: #f4f6f5; --bg-card: #ffffff; --bg-page: #ffffff; --bg-subtle: #edf1ef;
-            --header-bg: linear-gradient(135deg, #2b594b 0%, #1d3e34 100%); --header-text: #ffffff;
-            --primary: #2b594b; --primary-dark: #1d3e34; --primary-light: #e6efec; --accent: #c59b49;
-            --text-main: #111614; --text-muted: #55635e; --border-color: #dce3e0; --page-border: #d5deda;
-            --done-bg: #dcf2e6; --done-border: #2a8555; --done-text: #124d2e;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05); --login-bg: linear-gradient(135deg, #f8faf9 0%, #e6ece9 100%);
-        }
-        [data-theme="dark"] {
-            --bg-main: #090d0b; --bg-card: #111915; --bg-page: #0e1511; --bg-subtle: #18241e;
-            --header-bg: linear-gradient(135deg, #102a20 0%, #07140f 100%); --header-text: #ffffff;
-            --primary: #229967; --primary-dark: #197a51; --primary-light: #163024; --accent: #34c788;
-            --text-main: #ffffff; --text-muted: #a8bdb3; --border-color: #21332a; --page-border: #243b30;
-            --done-bg: #153b2a; --done-border: #26a66f; --done-text: #9ef0ca;
-            --shadow: 0 6px 24px rgba(0, 0, 0, 0.45); --login-bg: linear-gradient(135deg, #070a08 0%, #101f18 100%);
-        }
-        [data-theme="snowy"] {
-            --bg-main: #f7f6f2; --bg-card: #fcfbf8; --bg-page: #faf8f3; --bg-subtle: #eceef2;
-            --header-bg: linear-gradient(135deg, #2b5b84 0%, #1d3f5e 100%); --header-text: #fcfbf8;
-            --primary: #2b5b84; --primary-dark: #1d3f5e; --primary-light: #e4edf5; --accent: #4a89bd;
-            --text-main: #13293d; --text-muted: #52687a; --border-color: #d8dee6; --page-border: #cfd9e3;
-            --done-bg: #dfebf7; --done-border: #3a77ab; --done-text: #163b5c;
-            --shadow: 0 4px 20px rgba(29, 63, 94, 0.07); --login-bg: linear-gradient(135deg, #f7f6f2 0%, #e3ebf2 100%);
-        }
-        [data-theme="snowy-dark"] {
-            --bg-main: #09111a; --bg-card: #0f1b29; --bg-page: #0c1622; --bg-subtle: #162638;
-            --header-bg: linear-gradient(135deg, #132940 0%, #091524 100%); --header-text: #f1f5f9;
-            --primary: #3b82f6; --primary-dark: #2563eb; --primary-light: #162b45; --accent: #60a5fa;
-            --text-main: #f1f5f9; --text-muted: #94a3b8; --border-color: #1e334a; --page-border: #233b56;
-            --done-bg: #133152; --done-border: #3b82f6; --done-text: #bae6fd;
             --shadow: 0 6px 24px rgba(0, 0, 0, 0.5); --login-bg: linear-gradient(135deg, #070d14 0%, #102133 100%);
         }
 
@@ -242,7 +196,7 @@
 
             <div style="margin-top: 1.2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
                 <button class="btn btn-outline" style="width: 100%; font-size: 0.9rem;" onclick="openAdminLoginModal()">
-                    🔐 دخول لوحة تحكم المشرف
+                    مشرف
                 </button>
             </div>
         </div>
@@ -252,14 +206,14 @@
     <div class="modal-overlay" id="adminLoginModal">
         <div class="modal-card" style="max-width: 400px; height: auto;">
             <div class="modal-header">
-                <h3>دخول المشرف</h3>
+                <h3>مشرف</h3>
                 <button class="btn btn-outline" onclick="closeAdminLoginModal()">✕</button>
             </div>
             <div class="form-group">
-                <label>كلمة سر المشرف:</label>
-                <input type="password" id="adminPasswordInput" class="form-control" placeholder="أدخل كلمة السر..." onkeyup="if(event.key==='Enter') verifyAdminPassword()">
+                <label>باسوورد المشرف:</label>
+                <input type="password" id="adminPasswordInput" class="form-control" placeholder="اكتب باسوورد المشرف" onkeyup="if(event.key==='Enter') verifyAdminPassword()">
             </div>
-            <button class="btn btn-primary" style="width:100%;" onclick="verifyAdminPassword()">دخول لوحة التحكم</button>
+            <button class="btn btn-primary" style="width:100%;" onclick="verifyAdminPassword()">دخول</button>
         </div>
     </div>
 
@@ -443,7 +397,7 @@
 
     <script>
         const TOTAL_PAGES = 604;
-        const ADMIN_SECRET = "123"; // باسوورد المشرف الافتراضي
+        const ADMIN_SECRET = "123"; // باسوورد المشرف
         let selectedGroup = '';
         let currentStudentKey = '';
         let surahsMetadata = [];
@@ -535,6 +489,7 @@
             let db = getLocalDatabase();
 
             if (db[currentStudentKey]) {
+                // إذا تم تصفير كلمة المرور من المشرف
                 if (!db[currentStudentKey].passwordHash) {
                     db[currentStudentKey].passwordHash = hashedInputPwd;
                     saveLocalDatabase(db);
@@ -544,11 +499,12 @@
                 }
                 appState = db[currentStudentKey];
             } else {
+                // تسجيل طالب جديد في حالة انتظار (pending)
                 appState = {
                     name: name,
                     group: selectedGroup,
                     passwordHash: hashedInputPwd,
-                    status: 'pending',
+                    status: 'pending', // إجباري بانتظار موافقة المشرف
                     khatmahNumber: 1,
                     completedKhatmahs: 0,
                     currentPage: 1,
@@ -559,8 +515,9 @@
                 saveLocalDatabase(db);
             }
 
+            // منع الدخول التلقائي قبل موافقة المشرف
             if (appState.status !== 'approved') {
-                alert('⏳ تم إرسال طلب الانضمام إلى المشرف بنجاح! لا يمكنك الدخول للمقرأة إلا بعد موافقة المشرف عليه.');
+                alert('⏳ تم إرسال طلب الانضمام إلى المشرف بنجاح! لا يمكنك الدخول للمقرأة إلا بعد دخول المشرف وقبول طلبك.');
                 return;
             }
 
@@ -595,6 +552,7 @@
             }
         }
 
+        // نوافذ المشرف
         function openAdminLoginModal() {
             document.getElementById('adminLoginModal').style.display = 'flex';
             document.getElementById('adminPasswordInput').focus();
@@ -609,7 +567,7 @@
                 closeAdminLoginModal();
                 openAdminDashboard();
             } else {
-                alert('❌ كلمة السر غير صحيحة!');
+                alert('❌ باسوورد المشرف غير صحيح!');
             }
         }
         function openAdminDashboard() {
@@ -629,6 +587,7 @@
             const pending = allStudents.filter(s => s.status !== 'approved');
             const approved = allStudents.filter(s => s.status === 'approved');
 
+            // الطلبات المعلقة
             if (pending.length === 0) {
                 reqListEl.innerHTML = '<div style="color:var(--text-muted); padding:0.5rem;">لا توجد طلبات انضمام معلقة حالياً.</div>';
             } else {
@@ -648,6 +607,7 @@
                 });
             }
 
+            // الطلاب المقبولون
             if (approved.length === 0) {
                 stuListEl.innerHTML = '<div style="color:var(--text-muted); padding:0.5rem;">لا يوجد طلاب مقبولون بعد.</div>';
             } else {
@@ -659,7 +619,7 @@
                     row.innerHTML = `
                         <div><strong>${st.name}</strong> <span class="group-tag">${st.group}</span></div>
                         <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
-                            <button class="btn btn-warning" style="padding:0.3rem 0.7rem; font-size:0.8rem;" onclick="resetStudentPassword('${key}')">🔑 تصفير كلمة السر</button>
+                            <button class="btn btn-warning" style="padding:0.3rem 0.7rem; font-size:0.8rem;" onclick="resetStudentPassword('${key}')">🔑 تصفير الباسوورد</button>
                             <button class="btn btn-danger" style="padding:0.3rem 0.7rem; font-size:0.8rem;" onclick="adminDeleteStudent('${key}')">حذف الطالب</button>
                         </div>
                     `;
@@ -679,12 +639,12 @@
         }
 
         function resetStudentPassword(key) {
-            if (confirm('هل تريد تصفير كلمة مرور هذا الطالب ليتمكن من إنشاء كلمة مرور جديدة عند دخوله القادم؟')) {
+            if (confirm('هل تريد تصفير باسوورد هذا الطالب ليتمكن من إنشاء باسوورد جديد عند دخوله القادم؟')) {
                 let db = getLocalDatabase();
                 if (db[key]) {
                     db[key].passwordHash = '';
                     saveLocalDatabase(db);
-                    alert(`تم تصفير كلمة مرور الطالب (${db[key].name}).`);
+                    alert(`تم تصفير باسوورد الطالب (${db[key].name}).`);
                 }
             }
         }
@@ -782,7 +742,7 @@
                     partsMetadata.push({ number: i, name: `الجزء ${i}`, startPage: Math.min(startP, 604), endPage: Math.min(endP, 604) });
                 }
 
-                const res = await fetch('[https://api.alquran.cloud/v1/meta](https://api.alquran.cloud/v1/meta)');
+                const res = await fetch('https://api.alquran.cloud/v1/meta');
                 const data = await res.json();
                 const surahs = data.data.surahs.references;
                 const pages = data.data.pages.references;
@@ -926,7 +886,7 @@
             document.getElementById('pageTitle').textContent = `صفحة ${pageNumber}`;
 
             try {
-                const res = await fetch(`[https://api.alquran.cloud/v1/page/$](https://api.alquran.cloud/v1/page/$){pageNumber}/quran-uthmani`);
+                const res = await fetch(`https://api.alquran.cloud/v1/page/${pageNumber}/quran-uthmani`);
                 const data = await res.json();
                 const ayahs = data.data.ayahs;
                 const juzNumber = ayahs[0].juz;
@@ -1060,6 +1020,7 @@
             if (savedId && savedPwd) {
                 let db = getLocalDatabase();
                 const studentData = db[savedId];
+                // التحقق الصارم من أن الطالب مقبول (approved) وباسوورده صحيح
                 if (studentData && studentData.status === 'approved' && studentData.passwordHash === savedPwd) {
                     currentStudentKey = savedId;
                     appState = studentData;

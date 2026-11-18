@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مقرأة إثمار 3 (ذكور) | المزامنة السحابية العامة</title>
+    <title>مقرأة إثمار 3 (ذكور) | النظام الشامل</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
@@ -51,17 +51,17 @@
         header .theme-btn { color: rgba(255, 255, 255, 0.82); }
         .theme-btn.active { background: var(--primary); color: #ffffff !important; }
 
-        .login-overlay { position: fixed; inset: 0; background: var(--login-bg); display: flex; align-items: center; justify-content: center; padding: 1.5rem; z-index: 1000; }
-        .login-card { background: var(--bg-card); width: 100%; max-width: 470px; border-radius: 20px; padding: 2rem; box-shadow: var(--shadow); border: 1px solid var(--border-color); text-align: center; }
+        .login-overlay { position: fixed; inset: 0; background: var(--login-bg); display: flex; align-items: center; justify-content: center; padding: 1.5rem; z-index: 1000; overflow-y: auto; }
+        .login-card { background: var(--bg-card); width: 100%; max-width: 480px; border-radius: 20px; padding: 2rem; box-shadow: var(--shadow); border: 1px solid var(--border-color); text-align: center; }
         .login-logo { width: 60px; height: 60px; background: var(--primary-light); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.7rem; margin: 0 auto 0.8rem; }
         .login-card h1 { color: var(--primary); font-size: 1.45rem; margin-bottom: 0.25rem; }
-        .login-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
-        .form-group { text-align: right; margin-bottom: 1.2rem; }
+        .login-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.2rem; }
+        .form-group { text-align: right; margin-bottom: 1.1rem; }
         .form-group label { display: block; font-weight: 700; font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--text-main); }
         .form-control { width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--border-color); border-radius: 10px; font-family: 'Tajawal', sans-serif; font-size: 1rem; background-color: var(--bg-main); color: var(--text-main); }
         .form-control:focus { outline: none; border-color: var(--primary); background-color: var(--bg-card); }
         .groups-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; margin-top: 0.4rem; }
-        .group-option { border: 1.5px solid var(--border-color); border-radius: 10px; padding: 0.75rem 0.5rem; cursor: pointer; font-weight: 700; font-size: 0.95rem; color: var(--text-main); background: var(--bg-main); text-align: center; }
+        .group-option { border: 1.5px solid var(--border-color); border-radius: 10px; padding: 0.7rem 0.5rem; cursor: pointer; font-weight: 700; font-size: 0.9rem; color: var(--text-main); background: var(--bg-main); text-align: center; }
         .group-option:hover { border-color: var(--primary); background: var(--primary-light); }
         .group-option.selected { border-color: var(--primary); background: var(--primary); color: #ffffff; }
 
@@ -76,7 +76,13 @@
         .khatmah-badge { background: rgba(0, 0, 0, 0.22); padding: 0.35rem 0.9rem; border-radius: 50px; display: flex; align-items: center; gap: 0.8rem; font-size: 0.85rem; }
         .khatmah-count { font-weight: 700; color: #f7d994; font-size: 1rem; }
 
-        .dashboard { max-width: 1320px; margin: 1.2rem auto; padding: 0 1.5rem; }
+        /* شريط حكمة اليوم وتاريخ اليوم */
+        .info-ticker-bar { max-width: 1320px; margin: 1rem auto 0; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr auto; gap: 1rem; }
+        @media(max-width: 768px) { .info-ticker-bar { grid-template-columns: 1fr; } }
+        .wisdom-box { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 0.7rem 1.2rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; box-shadow: var(--shadow); color: var(--primary); font-weight: 600; }
+        .date-box { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 0.7rem 1.2rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; box-shadow: var(--shadow); color: var(--text-muted); }
+
+        .dashboard { max-width: 1320px; margin: 1rem auto; padding: 0 1.5rem; }
         .progress-card { background: var(--bg-card); border-radius: 16px; padding: 1.3rem 1.5rem; box-shadow: var(--shadow); border: 1px solid var(--border-color); }
         .progress-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
         .stats-grid { display: flex; gap: 2rem; flex-wrap: wrap; }
@@ -90,39 +96,44 @@
         .btn-primary:hover { background-color: var(--primary-dark); }
         .btn-success { background-color: #1e824c; color: #ffffff; }
         .btn-accent { background-color: var(--accent); color: #ffffff; }
+        .btn-danger { background-color: #dc2626; color: #ffffff; }
         .btn-outline { background-color: transparent; border: 1px solid var(--primary); color: var(--primary); }
         .btn-outline:hover { background-color: var(--primary-light); }
         .btn-ghost { background: rgba(255,255,255,0.15); color: #ffffff; border: 1px solid rgba(255,255,255,0.3); }
 
-        .main-container { max-width: 1320px; margin: 0 auto 3rem; padding: 0 1.5rem; display: grid; grid-template-columns: 320px 1fr; gap: 1.5rem; }
+        .main-container { max-width: 1320px; margin: 0 auto 3rem; padding: 0 1.5rem; display: grid; grid-template-columns: 330px 1fr; gap: 1.5rem; }
         @media (max-width: 900px) { .main-container { grid-template-columns: 1fr; } }
 
-        .sidebar { background: var(--bg-card); border-radius: 16px; padding: 1.2rem; box-shadow: var(--shadow); border: 1px solid var(--border-color); height: calc(100vh - 230px); min-height: 540px; display: flex; flex-direction: column; gap: 0.8rem; }
-        .tabs-switch { display: grid; grid-template-columns: 1fr 1fr; background: var(--bg-subtle); padding: 4px; border-radius: 10px; border: 1px solid var(--border-color); }
-        .tab-btn { padding: 0.5rem; border: none; background: transparent; font-family: 'Tajawal', sans-serif; font-weight: 700; font-size: 0.88rem; color: var(--text-muted); border-radius: 8px; cursor: pointer; }
+        .sidebar { background: var(--bg-card); border-radius: 16px; padding: 1.2rem; box-shadow: var(--shadow); border: 1px solid var(--border-color); height: calc(100vh - 280px); min-height: 520px; display: flex; flex-direction: column; gap: 0.8rem; }
+        .tabs-switch { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--bg-subtle); padding: 4px; border-radius: 10px; border: 1px solid var(--border-color); gap: 2px; }
+        .tab-btn { padding: 0.4rem 0.2rem; border: none; background: transparent; font-family: 'Tajawal', sans-serif; font-weight: 700; font-size: 0.78rem; color: var(--text-muted); border-radius: 8px; cursor: pointer; text-align: center; }
         .tab-btn.active { background: var(--primary); color: #ffffff; }
+        
         .form-input { width: 100%; padding: 0.6rem 0.8rem; border: 1px solid var(--border-color); border-radius: 8px; font-family: 'Tajawal', sans-serif; background-color: var(--bg-main); color: var(--text-main); font-size: 0.9rem; }
+        
         .pages-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; overflow-y: auto; padding-left: 4px; flex: 1; align-content: start; }
         .page-box { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 8px; background-color: var(--bg-main); border: 1px solid var(--border-color); font-size: 0.82rem; font-weight: 700; cursor: pointer; color: var(--text-main); }
         .page-box.completed { background-color: var(--done-bg); border-color: var(--done-border); color: var(--done-text); }
         .page-box.active { background-color: var(--primary); color: #ffffff; border-color: var(--primary); }
-        .surah-list { overflow-y: auto; flex: 1; padding-left: 4px; display: none; flex-direction: column; gap: 0.4rem; }
-        .surah-item { display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0.8rem; border-radius: 10px; background: var(--bg-main); border: 1px solid var(--border-color); cursor: pointer; color: var(--text-main); }
-        .surah-item.completed { background-color: var(--done-bg); border-color: var(--done-border); }
-        .surah-item-right { display: flex; align-items: center; gap: 0.6rem; }
-        .surah-num-badge { width: 26px; height: 26px; border-radius: 50%; background: var(--bg-card); color: var(--primary); font-size: 0.78rem; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); }
-        .surah-check-btn { padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; border: 1px solid var(--primary); background: var(--bg-card); color: var(--primary); cursor: pointer; }
-        .surah-item.completed .surah-check-btn { background: var(--done-border); color: #ffffff; border-color: var(--done-border); }
+
+        .parts-list, .surah-list { overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 0.4rem; padding-left: 4px; }
+        .part-item, .surah-item { display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0.8rem; border-radius: 10px; background: var(--bg-main); border: 1px solid var(--border-color); cursor: pointer; color: var(--text-main); }
+        .part-item.completed, .surah-item.completed { background-color: var(--done-bg); border-color: var(--done-border); }
+        .item-right { display: flex; align-items: center; gap: 0.6rem; }
+        .item-badge { width: 28px; height: 28px; border-radius: 50%; background: var(--bg-card); color: var(--primary); font-size: 0.78rem; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); }
+        .check-btn { padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; border: 1px solid var(--primary); background: var(--bg-card); color: var(--primary); cursor: pointer; }
+        .part-item.completed .check-btn, .surah-item.completed .check-btn { background: var(--done-border); color: #ffffff; border-color: var(--done-border); }
 
         .reader-area { background: var(--bg-card); border-radius: 16px; padding: 1.8rem; box-shadow: var(--shadow); border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: space-between; }
         .reader-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1.2rem; }
         .page-meta h2 { color: var(--primary); font-size: 1.4rem; }
         .page-meta p { color: var(--text-muted); font-size: 0.9rem; }
-        .mushaf-frame { background-color: var(--bg-page); border: 2px solid var(--page-border); border-radius: 12px; padding: 2rem 2.2rem; min-height: 460px; }
+        .mushaf-frame { background-color: var(--bg-page); border: 2px solid var(--page-border); border-radius: 12px; padding: 2rem 2.2rem; min-height: 440px; }
         .surah-banner { text-align: center; background: var(--bg-subtle); border-top: 1px solid var(--page-border); border-bottom: 1px solid var(--page-border); padding: 0.45rem 0; margin: 1rem 0; font-family: 'Amiri Quran', serif; font-size: 1.5rem; color: var(--primary); border-radius: 6px; }
         .bismillah { text-align: center; font-family: 'Amiri Quran', serif; font-size: 1.7rem; color: var(--text-main); margin-bottom: 1rem; }
         .ayahs-container { font-family: 'Amiri Quran', serif; font-size: 1.8rem; line-height: 2.5; text-align: justify; color: var(--text-main); }
         .ayah-num { display: inline-flex; align-items: center; justify-content: center; font-family: 'Tajawal', sans-serif; font-size: 0.85rem; color: var(--primary); border: 1px solid var(--primary); border-radius: 50%; width: 28px; height: 28px; margin: 0 5px; vertical-align: middle; }
+        
         .page-footer-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid var(--border-color); }
         .status-pill { padding: 0.35rem 0.9rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; }
         .status-pill.done { background-color: var(--done-bg); color: var(--done-text); }
@@ -132,13 +143,13 @@
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; padding: 1rem; z-index: 1100; }
         .modal-card { background: var(--bg-card); width: 100%; max-width: 700px; max-height: 85vh; border-radius: 20px; padding: 1.8rem; border: 1px solid var(--border-color); display: flex; flex-direction: column; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1rem; }
-        .leaderboard-list { overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 0.6rem; }
-        .leader-row { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1rem; background: var(--bg-main); border: 1px solid var(--border-color); border-radius: 12px; }
+        .leaderboard-list, .admin-list { overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 0.6rem; }
+        .leader-row, .admin-row { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1rem; background: var(--bg-main); border: 1px solid var(--border-color); border-radius: 12px; }
     </style>
 </head>
 <body>
 
-    <!-- شاشة تسجيل الدخول -->
+    <!-- شاشة تسجيل الدخول / طلب الانضمام -->
     <div class="login-overlay" id="loginOverlay">
         <div class="login-card">
             <div class="theme-switcher">
@@ -150,11 +161,11 @@
 
             <div class="login-logo">🕌</div>
             <h1>مقرأة إثمار 3 (ذكور)</h1>
-            <p>أكاديمية الجيل الصاعد — أدخل اسمك ومجموعتك</p>
+            <p>أكاديمية الجيل الصاعد — أدخل بياناتك لإرسال طلب الانضمام للمشرف</p>
 
             <div class="form-group">
-                <label for="studentNameInput">اسم الطالب:</label>
-                <input type="text" id="studentNameInput" class="form-control" placeholder="اكتب اسمك الثلاثي هنا...">
+                <label for="studentNameInput">اسم الطالب الثلاثي:</label>
+                <input type="text" id="studentNameInput" class="form-control" placeholder="اكتب اسمك هنا...">
             </div>
 
             <div class="form-group">
@@ -167,9 +178,48 @@
                 </div>
             </div>
 
-            <button class="btn btn-primary" id="loginBtn" style="width: 100%; padding: 0.85rem; font-size: 1.05rem; margin-top: 0.8rem;" onclick="handleLogin()">
-                دخول أونلاين ⬅
+            <button class="btn btn-primary" id="loginBtn" style="width: 100%; padding: 0.85rem; font-size: 1.05rem; margin-top: 0.6rem;" onclick="handleLogin()">
+                إرسال طلب الانضمام للمشرف ⬅
             </button>
+
+            <div style="margin-top: 1.2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                <button class="btn btn-outline" style="width: 100%; font-size: 0.85rem;" onclick="openAdminLoginModal()">
+                    🔐 دخول لوحة تحكم المشرف
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تسجيل دخول المشرف -->
+    <div class="modal-overlay" id="adminLoginModal">
+        <div class="modal-card" style="max-width: 400px; height: auto;">
+            <div class="modal-header">
+                <h3>دخول المشرف</h3>
+                <button class="btn btn-outline" onclick="closeAdminLoginModal()">✕</button>
+            </div>
+            <div class="form-group">
+                <label>كلمة سر المشرف:</label>
+                <input type="password" id="adminPasswordInput" class="form-control" placeholder="أدخل كلمة السر...">
+            </div>
+            <button class="btn btn-primary" style="width:100%;" onclick="verifyAdminPassword()">دخول لوحة التحكم</button>
+        </div>
+    </div>
+
+    <!-- نافذة لوحة تحكم المشرف (إدارة الطلبات والطلاب) -->
+    <div class="modal-overlay" id="adminDashboardModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2 style="color:var(--primary);">🛡️ لوحة تحكم المشرف (الطلبات والطلاب)</h2>
+                <button class="btn btn-outline" onclick="closeAdminDashboard()">✕ إغلاق</button>
+            </div>
+            <div style="margin-bottom:1rem; font-weight:700;">طلبات الانضمام المعلقة:</div>
+            <div class="admin-list" id="adminRequestsList">
+                <div class="loader">جاري جلب الطلبات...</div>
+            </div>
+            <div style="margin:1rem 0 0.5rem; font-weight:700;">الطلاب المقبولون حالياً:</div>
+            <div class="admin-list" id="adminStudentsList">
+                <div class="loader">جاري جلب الطلاب...</div>
+            </div>
         </div>
     </div>
 
@@ -225,10 +275,23 @@
                     </div>
                 </div>
 
-                <button class="btn btn-ghost" onclick="logout()">تغيير الطالب</button>
+                <button class="btn btn-danger" onclick="deleteMyAccount()" style="font-size:0.78rem; padding:0.35rem 0.7rem;">حذف حسابي</button>
+                <button class="btn btn-ghost" onclick="logout()">خروج</button>
             </div>
         </div>
     </header>
+
+    <!-- شريط معلومات اليوم: الحكمة اليومية والتاريخ -->
+    <div class="info-ticker-bar">
+        <div class="wisdom-box">
+            <span>💡 حكمة اليوم:</span>
+            <span id="dailyWisdomText">جاري تحميل حكمة اليوم...</span>
+        </div>
+        <div class="date-box">
+            <span>📅 التاريخ:</span>
+            <span id="currentDateText">...</span>
+        </div>
+    </div>
 
     <!-- لوحة الإحصائيات -->
     <section class="dashboard">
@@ -237,15 +300,15 @@
                 <div class="stats-grid">
                     <div class="stat-item">
                         <strong id="progressPercent">0%</strong>
-                        <small>نسبة إنجاز الختمة</small>
+                        <small>إنجاز الختمة القرآنية</small>
                     </div>
                     <div class="stat-item">
                         <strong id="readPagesCount">0 / 604</strong>
                         <small>الصفحات المنجزة</small>
                     </div>
                     <div class="stat-item">
-                        <strong id="completedSurahsCount">0 / 114</strong>
-                        <small>السور المكتملة</small>
+                        <strong id="tadabburCount">0 / 604</strong>
+                        <small>ختمة التدبر المنجزة</small>
                     </div>
                 </div>
                 <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
@@ -265,21 +328,26 @@
     <main class="main-container">
         <aside class="sidebar">
             <div class="tabs-switch">
-                <button class="tab-btn active" id="tabPagesBtn" onclick="switchSidebarTab('pages')">📄 بالصفحات (604)</button>
-                <button class="tab-btn" id="tabSurahsBtn" onclick="switchSidebarTab('surahs')">📖 بالسور (114)</button>
+                <button class="tab-btn active" id="tabPagesBtn" onclick="switchSidebarTab('pages')">📄 صفحات</button>
+                <button class="tab-btn" id="tabPartsBtn" onclick="switchSidebarTab('parts')">📖 أجزاء (30)</button>
+                <button class="tab-btn" id="tabSurahsBtn" onclick="switchSidebarTab('surahs')">📜 سور (114)</button>
             </div>
 
             <div id="pagesTabContent" style="display:flex; flex-direction:column; gap:0.7rem; flex:1; overflow:hidden;">
                 <div style="display:flex; gap:5px;">
-                    <input type="number" id="pageInput" class="form-input" min="1" max="604" placeholder="انتقل لصفحة (1-604)..." onkeyup="if(event.key==='Enter') goToInputPage()">
+                    <input type="number" id="pageInput" class="form-input" min="1" max="604" placeholder="انتقل لصفحة..." onkeyup="if(event.key==='Enter') goToInputPage()">
                     <button class="btn btn-primary" onclick="goToInputPage()">اذهب</button>
                 </div>
                 <div class="pages-grid" id="pagesGrid"></div>
             </div>
 
+            <div id="partsTabContent" style="display:none; flex-direction:column; gap:0.7rem; flex:1; overflow:hidden;">
+                <div class="parts-list" id="partsList"></div>
+            </div>
+
             <div id="surahsTabContent" style="display:none; flex-direction:column; gap:0.7rem; flex:1; overflow:hidden;">
                 <input type="text" id="surahSearchInput" class="form-input" placeholder="🔍 ابحث عن اسم السورة..." onkeyup="renderSurahList()">
-                <div class="surah-list" id="surahList" style="display:flex;"></div>
+                <div class="surah-list" id="surahList"></div>
             </div>
         </aside>
 
@@ -306,7 +374,8 @@
             <div class="page-footer-bar">
                 <button class="btn btn-outline" id="prevPageBtn" onclick="changePage(-1)">➡ الصفحة السابقة</button>
                 <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
-                    <button class="btn btn-outline" id="toggleDoneBtn" onclick="toggleCurrentPageStatus()">تحديد / إلغاء إنجاز الصفحة</button>
+                    <button class="btn btn-outline" id="toggleDoneBtn" onclick="toggleCurrentPageStatus()">تحديد الصفحة كمنجزة</button>
+                    <button class="btn btn-outline" id="toggleTadabburBtn" style="border-color:var(--accent); color:var(--accent);" onclick="toggleCurrentTadabburStatus()">💡 تم التدبر</button>
                     <button class="btn btn-primary" onclick="completeAndNext()">✓ إتمام والانتقال للتالية</button>
                 </div>
                 <button class="btn btn-outline" id="nextPageBtn" onclick="changePage(1)">الصفحة التالية ⬅</button>
@@ -317,7 +386,7 @@
     <!-- ربط قاعدة بيانات Firebase Firestore المباشر -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, getDoc, setDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBO68EBbPQZH3riuK5n0Rz8RGQor7pth-g",
@@ -332,13 +401,11 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // ربط دوال السحابة بنافذة المتصفح لتعمل بسلاسة مع باقي أزرار الصفحة
         window.fbGetStudent = async (key) => {
             try {
                 const snap = await getDoc(doc(db, "students", key));
                 return snap.exists() ? snap.data() : null;
             } catch (e) {
-                console.warn("خطأ في جلب الطالب من السحابة:", e);
                 const localDb = JSON.parse(localStorage.getItem('ithmar3_all_students_db')) || {};
                 return localDb[key] || null;
             }
@@ -350,9 +417,16 @@
             localStorage.setItem('ithmar3_all_students_db', JSON.stringify(localDb));
             try {
                 await setDoc(doc(db, "students", key), data);
-            } catch (e) {
-                console.warn("سيتم المزامنة لاحقاً عند توفر الاتصال:", e);
-            }
+            } catch (e) {}
+        };
+
+        window.fbDeleteStudent = async (key) => {
+            const localDb = JSON.parse(localStorage.getItem('ithmar3_all_students_db')) || {};
+            delete localDb[key];
+            localStorage.setItem('ithmar3_all_students_db', JSON.stringify(localDb));
+            try {
+                await deleteDoc(doc(db, "students", key));
+            } catch (e) {}
         };
 
         window.fbGetAllStudents = async () => {
@@ -364,7 +438,6 @@
                 });
                 return list;
             } catch (e) {
-                console.warn("الاعتماد على النسخة المحلية للوحة الشرف:", e);
                 const localDb = JSON.parse(localStorage.getItem('ithmar3_all_students_db')) || {};
                 return Object.values(localDb);
             }
@@ -376,15 +449,38 @@
         let selectedGroup = '';
         let currentStudentKey = '';
         let surahsMetadata = [];
+        let partsMetadata = [];
 
         let appState = {
             name: '',
             group: '',
+            status: 'pending', // pending | approved
             khatmahNumber: 1,
             completedKhatmahs: 0,
             currentPage: 1,
-            completedPages: {}
+            completedPages: {},
+            tadabburPages: {}
         };
+
+        // حكم متجددة يومياً
+        const wisdoms = [
+            "خُذِ العِفَّةَ وَالحَياءَ عُدَّةً، وَتَمَسَّكْ بِالقُرآنِ عِصْمَةً.",
+            "مَنْ عَمِلَ بِمَا عَلِمَ، أورثه الله عِلْمَ مَا لَمْ يَعْلَمْ.",
+            "القرآن كنزٌ مَنْ حَازَهُ حَازَ الخَيْرَ كُلَّهُ.",
+            "أفضل الذكر وأعظمه وأنفعه القرآن الكريم.",
+            "تدبر القرآن مفتاح لقلوب الأبرار وعمارة للديار.",
+            "اصبر على طاعة الله، فإن حلاوة الأجر تذهب تلعب التعب."
+        ];
+
+        function initDailyInfo() {
+            // اختيار حكمة اليوم بناءً على رقم اليوم في السنة
+            const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+            document.getElementById('dailyWisdomText').textContent = wisdoms[dayOfYear % wisdoms.length];
+
+            // عرض تاريخ اليوم
+            const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+            document.getElementById('currentDateText').textContent = new Date().toLocaleDateString('ar-EG', options);
+        }
 
         function setTheme(themeName) {
             document.documentElement.setAttribute('data-theme', themeName);
@@ -403,28 +499,37 @@
 
         async function handleLogin() {
             const name = document.getElementById('studentNameInput').value.trim();
-            if (!name) return alert('يرجى كتابة اسم الطالب أولاً.');
+            if (!name) return alert('يرجى كتابة اسم الطالب الثلاثي.');
             if (!selectedGroup) return alert('يرجى اختيار المجموعة.');
 
             const loginBtn = document.getElementById('loginBtn');
-            loginBtn.textContent = 'جاري الاتصال بالسحابة...';
+            loginBtn.textContent = 'جاري إرسال الطلب للمشرف...';
             loginBtn.disabled = true;
 
             currentStudentKey = `${name}_${selectedGroup}`.replace(/\s+/g, '_');
             
-            const existingStudent = await window.fbGetStudent(currentStudentKey);
+            let existingStudent = await window.fbGetStudent(currentStudentKey);
             if (existingStudent) {
                 appState = existingStudent;
             } else {
                 appState = {
                     name: name,
                     group: selectedGroup,
+                    status: 'pending', // معلق بانتظار موافقة المشرف
                     khatmahNumber: 1,
                     completedKhatmahs: 0,
                     currentPage: 1,
-                    completedPages: {}
+                    completedPages: {},
+                    tadabburPages: {}
                 };
                 await window.fbSaveStudent(currentStudentKey, appState);
+            }
+
+            if (appState.status === 'pending') {
+                alert('تم إرسال طلب انضمامك بنجاح! بانتظار موافقة المشرف بكلمة السر ليتم فتح المقرأة لك.');
+                loginBtn.textContent = 'إرسال طلب الانضمام للمشرف ⬅';
+                loginBtn.disabled = false;
+                return;
             }
 
             localStorage.setItem('ithmar3_active_student_id', currentStudentKey);
@@ -446,10 +551,110 @@
             document.getElementById('loginOverlay').style.display = 'flex';
         }
 
+        async function deleteMyAccount() {
+            if (confirm('هل أنت متأكد من رغبتك في حذف حسابك نهائياً من السحابة؟')) {
+                await window.fbDeleteStudent(currentStudentKey);
+                localStorage.removeItem('ithmar3_active_student_id');
+                alert('تم حذف الحساب بنجاح.');
+                location.reload();
+            }
+        }
+
+        // تحكم المشرف بكلمة السر "123"
+        function openAdminLoginModal() {
+            document.getElementById('adminLoginModal').style.display = 'flex';
+        }
+        function closeAdminLoginModal() {
+            document.getElementById('adminLoginModal').style.display = 'none';
+        }
+        function verifyAdminPassword() {
+            const pwd = document.getElementById('adminPasswordInput').value;
+            if (pwd === '123') {
+                closeAdminLoginModal();
+                openAdminDashboard();
+            } else {
+                alert('كلمة السر غير صحيحة!');
+            }
+        }
+
+        async function openAdminDashboard() {
+            document.getElementById('adminDashboardModal').style.display = 'flex';
+            renderAdminLists();
+        }
+        function closeAdminDashboard() {
+            document.getElementById('adminDashboardModal').style.display = 'none';
+        }
+
+        async function renderAdminLists() {
+            const reqListEl = document.getElementById('adminRequestsList');
+            const stuListEl = document.getElementById('adminStudentsList');
+            reqListEl.innerHTML = '<div class="loader">جاري التحميل...</div>';
+            stuListEl.innerHTML = '<div class="loader">جاري التحميل...</div>';
+
+            const allStudents = await window.fbGetAllStudents();
+            const pending = allStudents.filter(s => s.status === 'pending');
+            const approved = allStudents.filter(s => s.status === 'approved');
+
+            // طلبات معلقة
+            if (pending.length === 0) {
+                reqListEl.innerHTML = '<div style="color:var(--text-muted); padding:0.5rem;">لا توجد طلبات معلقة حالياً.</div>';
+            } else {
+                reqListEl.innerHTML = '';
+                pending.forEach(st => {
+                    const key = `${st.name}_${st.group}`.replace(/\s+/g, '_');
+                    const row = document.createElement('div');
+                    row.className = 'admin-row';
+                    row.innerHTML = `
+                        <div><strong>${st.name}</strong> <span class="group-tag">${st.group}</span></div>
+                        <div style="display:flex; gap:0.4rem;">
+                            <button class="btn btn-success" style="padding:0.3rem 0.7rem; font-size:0.8rem;" onclick="approveStudent('${key}')">موافقة ✓</button>
+                            <button class="btn btn-danger" style="padding:0.3rem 0.7rem; font-size:0.8rem;" onclick="removeStudentRecord('${key}')">رفض</button>
+                        </div>
+                    `;
+                    reqListEl.appendChild(row);
+                });
+            }
+
+            // الطلاب المقبولون
+            if (approved.length === 0) {
+                stuListEl.innerHTML = '<div style="color:var(--text-muted); padding:0.5rem;">لا يوجد طلاب مسجلون بعد.</div>';
+            } else {
+                stuListEl.innerHTML = '';
+                approved.forEach(st => {
+                    const key = `${st.name}_${st.group}`.replace(/\s+/g, '_');
+                    const row = document.createElement('div');
+                    row.className = 'admin-row';
+                    row.innerHTML = `
+                        <div><strong>${st.name}</strong> <span class="group-tag">${st.group}</span></div>
+                        <button class="btn btn-danger" style="padding:0.3rem 0.7rem; font-size:0.8rem;" onclick="removeStudentRecord('${key}')">حذف الطالب</button>
+                    `;
+                    stuListEl.appendChild(row);
+                });
+            }
+        }
+
+        async function approveStudent(key) {
+            let st = await window.fbGetStudent(key);
+            if (st) {
+                st.status = 'approved';
+                await window.fbSaveStudent(key, st);
+                renderAdminLists();
+                alert(`تمت الموافقة على الطالب ${st.name}! يمكنه الآن تسجيل الدخول.`);
+            }
+        }
+
+        async function removeStudentRecord(key) {
+            if (confirm('هل أنت متأكد من حذف هذا السجل نهائياً؟')) {
+                await window.fbDeleteStudent(key);
+                renderAdminLists();
+            }
+        }
+
         async function saveState() {
             if (!currentStudentKey) return;
             updateDashboard();
             renderPagesGrid();
+            renderPartsList();
             renderSurahList();
             updatePageButtons();
             
@@ -472,6 +677,7 @@
             listEl.innerHTML = '<div class="loader">جاري جلب إنجازات الطلاب أونلاين...</div>';
 
             let studentsList = await window.fbGetAllStudents();
+            studentsList = studentsList.filter(s => s.status === 'approved');
 
             if (groupFilter !== 'الكل') {
                 studentsList = studentsList.filter(s => s.group === groupFilter);
@@ -487,13 +693,14 @@
             });
 
             if (studentsList.length === 0) {
-                listEl.innerHTML = '<div class="loader">لا يوجد طلاب مسجلون في هذه المجموعة بعد.</div>';
+                listEl.innerHTML = '<div class="loader">لا يوجد طلاب مقبولون في هذه المجموعة بعد.</div>';
                 return;
             }
 
             listEl.innerHTML = '';
             studentsList.forEach((st, idx) => {
                 const pages = Object.keys(st.completedPages || {}).length;
+                const tadabbur = Object.keys(st.tadabburPages || {}).length;
                 const pct = ((pages / TOTAL_PAGES) * 100).toFixed(1);
                 const row = document.createElement('div');
                 row.className = 'leader-row';
@@ -504,7 +711,7 @@
                     </div>
                     <div style="text-align:left;">
                         <strong style="color:var(--primary);">${pages} / 604 صفحة (${pct}%)</strong>
-                        <small style="display:block; color:var(--text-muted);">الختمات المنجزة: ${st.completedKhatmahs || 0}</small>
+                        <small style="display:block; color:var(--text-muted);">ختمة التدبر: ${tadabbur} صفحة | الختمات المنجزة: ${st.completedKhatmahs || 0}</small>
                     </div>
                 `;
                 listEl.appendChild(row);
@@ -513,13 +720,23 @@
 
         function switchSidebarTab(tab) {
             document.getElementById('pagesTabContent').style.display = tab === 'pages' ? 'flex' : 'none';
+            document.getElementById('partsTabContent').style.display = tab === 'parts' ? 'flex' : 'none';
             document.getElementById('surahsTabContent').style.display = tab === 'surahs' ? 'flex' : 'none';
             document.getElementById('tabPagesBtn').classList.toggle('active', tab === 'pages');
+            document.getElementById('tabPartsBtn').classList.toggle('active', tab === 'parts');
             document.getElementById('tabSurahsBtn').classList.toggle('active', tab === 'surahs');
         }
 
         async function fetchQuranMeta() {
             try {
+                // توليد بيانات الأجزاء (30 جزءاً - كل جزء حوالي 20-21 صفحة)
+                partsMetadata = [];
+                for (let i = 1; i <= 30; i++) {
+                    const startP = (i - 1) * 20 + (i > 1 ? 1 : 1);
+                    const endP = i === 30 ? 604 : i * 20;
+                    partsMetadata.push({ number: i, name: `الجزء ${i}`, startPage: startP > 604 ? 604 : startP, endPage: endP > 604 ? 604 : endP });
+                }
+
                 const res = await fetch('https://api.alquran.cloud/v1/meta');
                 const data = await res.json();
                 const surahs = data.data.surahs.references;
@@ -542,9 +759,50 @@
                         surahsMetadata[i].endPage = 604;
                     }
                 }
+                renderPartsList();
                 renderSurahList();
                 updateDashboard();
             } catch (e) { console.error(e); }
+        }
+
+        function isPartCompleted(part) {
+            for (let p = part.startPage; p <= part.endPage; p++) {
+                if (!appState.completedPages[p]) return false;
+            }
+            return true;
+        }
+
+        function togglePartCompletion(event, partNum) {
+            event.stopPropagation();
+            const part = partsMetadata.find(pt => pt.number === partNum);
+            if (!part) return;
+            const alreadyDone = isPartCompleted(part);
+            for (let p = part.startPage; p <= part.endPage; p++) {
+                if (alreadyDone) delete appState.completedPages[p];
+                else appState.completedPages[p] = true;
+            }
+            saveState();
+        }
+
+        function renderPartsList() {
+            const listEl = document.getElementById('partsList');
+            listEl.innerHTML = '';
+            partsMetadata.forEach(part => {
+                const done = isPartCompleted(part);
+                const item = document.createElement('div');
+                item.className = `part-item ${done ? 'completed' : ''}`;
+                item.onclick = () => loadPage(part.startPage);
+                item.innerHTML = `
+                    <div class="item-right">
+                        <span class="item-badge">${part.number}</span>
+                        <div><strong>${part.name}</strong><small style="display:block; color:var(--text-muted); font-size:0.75rem;">صفحة ${part.startPage} إلى ${part.endPage}</small></div>
+                    </div>
+                    <button class="check-btn" onclick="togglePartCompletion(event, ${part.number})">
+                        ${done ? '✔ منجز' : 'إتمام الجزء'}
+                    </button>
+                `;
+                listEl.appendChild(item);
+            });
         }
 
         function isSurahCompleted(surah) {
@@ -578,14 +836,14 @@
                 item.className = `surah-item ${done ? 'completed' : ''}`;
                 item.onclick = () => loadPage(surah.startPage);
                 item.innerHTML = `
-                    <div class="surah-item-right">
-                        <span class="surah-num-badge">${surah.number}</span>
+                    <div class="item-right">
+                        <span class="item-badge">${surah.number}</span>
                         <div>
                             <div style="font-weight:700; font-size:0.95rem;">${surah.name}</div>
                             <small style="color:var(--text-muted); font-size:0.75rem;">صفحة ${surah.startPage}</small>
                         </div>
                     </div>
-                    <button class="surah-check-btn" onclick="toggleSurahCompletion(event, ${surah.number})">
+                    <button class="check-btn" onclick="toggleSurahCompletion(event, ${surah.number})">
                         ${done ? '✔ منجزة' : 'إتمام السورة'}
                     </button>
                 `;
@@ -676,6 +934,13 @@
             saveState();
         }
 
+        function toggleCurrentTadabburStatus() {
+            const p = appState.currentPage;
+            if (appState.tadabburPages[p]) delete appState.tadabburPages[p];
+            else appState.tadabburPages[p] = true;
+            saveState();
+        }
+
         function changePage(step) {
             const target = appState.currentPage + step;
             if (target >= 1 && target <= TOTAL_PAGES) {
@@ -693,33 +958,35 @@
 
         function updatePageButtons() {
             const isDone = !!appState.completedPages[appState.currentPage];
+            const isTadabbured = !!appState.tadabburPages[appState.currentPage];
+            
             const pill = document.getElementById('pageStatusPill');
             const toggleBtn = document.getElementById('toggleDoneBtn');
+            const tadabburBtn = document.getElementById('toggleTadabburBtn');
+
             pill.textContent = isDone ? '✔ تم إنجاز هذه الصفحة' : 'غير منجزة بعد';
             pill.className = `status-pill ${isDone ? 'done' : 'pending'}`;
             toggleBtn.textContent = isDone ? '↺ إلغاء إنجاز الصفحة' : '✓ تحديد الصفحة كمنجزة';
+            
+            tadabburBtn.textContent = isTadabbured ? '💡 تم التدبر ✓' : '💡 تم التدبر';
+            tadabburBtn.style.background = isTadabbured ? 'var(--accent)' : 'transparent';
+            tadabburBtn.style.color = isTadabbured ? '#ffffff' : 'var(--accent)';
+
             document.getElementById('prevPageBtn').disabled = appState.currentPage === 1;
             document.getElementById('nextPageBtn').disabled = appState.currentPage === TOTAL_PAGES;
         }
 
         function updateDashboard() {
             const doneCount = Object.keys(appState.completedPages).length;
+            const tadabburCount = Object.keys(appState.tadabburPages).length;
             const percentage = ((doneCount / TOTAL_PAGES) * 100).toFixed(1);
-            let completedSurahs = 0;
-            surahsMetadata.forEach(s => { if (isSurahCompleted(s)) completedSurahs++; });
 
             document.getElementById('progressPercent').textContent = `${percentage}%`;
             document.getElementById('readPagesCount').textContent = `${doneCount} / ${TOTAL_PAGES}`;
-            document.getElementById('completedSurahsCount').textContent = `${completedSurahs} / 114`;
+            document.getElementById('tadabburCount').textContent = `${tadabburCount} / ${TOTAL_PAGES}`;
             document.getElementById('progressBar').style.width = `${percentage}%`;
             document.getElementById('currentKhatmahNum').textContent = appState.khatmahNumber;
             document.getElementById('completedKhatmahsCount').textContent = appState.completedKhatmahs;
-
-            if (doneCount === TOTAL_PAGES) {
-                setTimeout(() => {
-                    alert(`🎉 مبارك يا ${appState.name} (مجموعة ${appState.group})! أتممت ختم القرآن الكريم كاملاً.`);
-                }, 250);
-            }
         }
 
         function startNewKhatmah() {
@@ -732,6 +999,7 @@
                 if (isFull) appState.completedKhatmahs += 1;
                 appState.khatmahNumber += 1;
                 appState.completedPages = {};
+                appState.tadabburPages = {};
                 appState.currentPage = 1;
                 saveState();
                 loadPage(1);
@@ -739,11 +1007,12 @@
         }
 
         window.onload = async () => {
+            initDailyInfo();
             await fetchQuranMeta();
             const savedId = localStorage.getItem('ithmar3_active_student_id');
             if (savedId && window.fbGetStudent) {
                 const studentData = await window.fbGetStudent(savedId);
-                if (studentData) {
+                if (studentData && studentData.status === 'approved') {
                     currentStudentKey = savedId;
                     appState = studentData;
                     enterApp();

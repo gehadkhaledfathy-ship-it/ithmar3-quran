@@ -6,7 +6,7 @@
     <title>مقرأة إثمار 3 (ذكور) | النظام الشامل أونلاين</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     
     <style>
         :root, [data-theme="light"] {
@@ -132,17 +132,41 @@
         .reader-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1.2rem; }
         .page-meta h2 { color: var(--primary); font-size: 1.4rem; }
         .page-meta p { color: var(--text-muted); font-size: 0.9rem; }
+        
+        /* تنسيق إطار المصحف والآيات والتجويد المضبوط */
         .mushaf-frame { background-color: var(--bg-page); border: 2px solid var(--page-border); border-radius: 12px; padding: 2rem 2.2rem; min-height: 440px; }
-        .surah-banner { text-align: center; background: var(--bg-subtle); border-top: 1px solid var(--page-border); border-bottom: 1px solid var(--page-border); padding: 0.45rem 0; margin: 1rem 0; font-family: 'Amiri Quran', serif; font-size: 1.5rem; color: var(--primary); border-radius: 6px; }
-        .bismillah { text-align: center; font-family: 'Amiri Quran', serif; font-size: 1.7rem; color: var(--text-main); margin-bottom: 1rem; }
-        .ayahs-container { font-family: 'Amiri Quran', serif; font-size: 1.8rem; line-height: 2.5; text-align: justify; color: var(--text-main); }
-        .ayah-num { display: inline-flex; align-items: center; justify-content: center; font-family: 'Tajawal', sans-serif; font-size: 0.85rem; color: var(--primary); border: 1px solid var(--primary); border-radius: 50%; width: 28px; height: 28px; margin: 0 5px; vertical-align: middle; }
+        .surah-banner { text-align: center; background: var(--bg-subtle); border-top: 1px solid var(--page-border); border-bottom: 1px solid var(--page-border); padding: 0.5rem 0; margin: 1.2rem 0 0.8rem; font-family: 'Scheherazade New', serif; font-weight: 700; font-size: 1.75rem; color: var(--primary); border-radius: 6px; }
+        .bismillah { text-align: center; font-family: 'Scheherazade New', serif; font-weight: 700; font-size: 1.85rem; color: var(--text-main); margin-bottom: 1rem; }
+        .ayahs-container { 
+            font-family: 'Scheherazade New', serif; 
+            font-size: 1.95rem; 
+            line-height: 2.35; 
+            text-align: justify; 
+            color: var(--text-main); 
+            word-spacing: 2px;
+            font-feature-settings: "liga" 1, "calt" 1, "mark" 1, "mkmk" 1;
+        }
+        .ayah-num { 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-family: 'Tajawal', sans-serif; 
+            font-size: 0.82rem; 
+            font-weight: 700;
+            color: var(--primary); 
+            border: 1.5px solid var(--primary); 
+            border-radius: 50%; 
+            width: 28px; 
+            height: 28px; 
+            margin: 0 6px; 
+            vertical-align: middle; 
+        }
         
         .page-footer-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid var(--border-color); }
         .status-pill { padding: 0.35rem 0.9rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; }
         .status-pill.done { background-color: var(--done-bg); color: var(--done-text); }
         .status-pill.pending { background-color: var(--bg-subtle); color: var(--text-muted); }
-        .loader { text-align: center; padding: 4rem 1rem; color: var(--text-muted); font-size: 1.1rem; }
+        .loader { text-align: center; padding: 4rem 1rem; color: var(--text-muted); font-size: 1.1rem; font-family: 'Tajawal', sans-serif; }
 
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; padding: 1rem; z-index: 1100; }
         .modal-card { background: var(--bg-card); width: 100%; max-width: 720px; max-height: 85vh; border-radius: 20px; padding: 1.8rem; border: 1px solid var(--border-color); display: flex; flex-direction: column; }
@@ -405,7 +429,6 @@
             collection, getDocs, onSnapshot 
         } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        // إعدادات مشروع Firebase الخاص بك (Ithmar3)
         const firebaseConfig = {
             apiKey: "AIzaSyBO68EBbPQZH3riuK5n0Rz8RGQor7pth-g",
             authDomain: "ithmar3.firebaseapp.com",
@@ -491,7 +514,6 @@
             }
         };
 
-        // تسجيل الدخول أو إرسال طلب انضمام أونلاين إلى Firebase
         window.handleLogin = async function() {
             const name = document.getElementById('studentNameInput').value.trim();
             const rawPassword = document.getElementById('studentPasswordInput').value.trim();
@@ -586,7 +608,6 @@
             }
         };
 
-        // لوحة تحكم المشرف المتصلة بالسحابة
         window.openAdminLoginModal = function() {
             document.getElementById('adminLoginModal').style.display = 'flex';
             document.getElementById('adminPasswordInput').focus();
@@ -716,7 +737,6 @@
             updatePageButtons();
         }
 
-        // حفظ التغييرات على السحابة مباشرة
         async function saveState() {
             if (!currentStudentKey) return;
             updateUI();
@@ -731,7 +751,6 @@
             }
         }
 
-        // لوحة الشرف أونلاين
         window.openLeaderboard = async function() {
             document.getElementById('leaderboardModal').style.display = 'flex';
             const listEl = document.getElementById('leaderboardList');
@@ -948,6 +967,7 @@
             else alert('يرجى إدخال رقم صفحة صحيح بين 1 و 604');
         };
 
+        // جلب الآيات برسم المصحف المضبوط بدون تداخل التشكيل أو التجويد
         window.loadPage = async function(pageNumber) {
             if (pageNumber < 1 || pageNumber > TOTAL_PAGES) return;
             appState.currentPage = pageNumber;
@@ -958,7 +978,7 @@
             document.getElementById('pageTitle').textContent = `صفحة ${pageNumber}`;
 
             try {
-                const res = await fetch(`https://api.alquran.cloud/v1/page/${pageNumber}/quran-uthmani`);
+                const res = await fetch(`https://api.alquran.cloud/v1/page/${pageNumber}/quran-simple-enhanced`);
                 if (!res.ok) throw new Error('Network response was not ok');
                 const data = await res.json();
                 const ayahs = data.data.ayahs;
@@ -976,22 +996,27 @@
             }
         };
 
+        // دالة نظيفة لعرض السور والبسملة والآيات بدون أي تشويه في الحروف أو التشكيل
         function renderPageAyahs(ayahs) {
             const container = document.getElementById('ayahsContainer');
             container.innerHTML = '';
             ayahs.forEach(ayah => {
-                let text = ayah.text;
+                let text = ayah.text.trim();
                 if (ayah.numberInSurah === 1) {
                     const banner = document.createElement('div');
                     banner.className = 'surah-banner';
                     banner.textContent = ayah.surah.name;
                     container.appendChild(banner);
+
                     if (ayah.surah.number !== 1 && ayah.surah.number !== 9) {
                         const bismillah = document.createElement('div');
                         bismillah.className = 'bismillah';
                         bismillah.textContent = 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ';
                         container.appendChild(bismillah);
-                        text = text.replace('بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ', '');
+
+                        // إزالة البسملة المدمجة في بداية الآية الأولى بدقة دون ترك أي تشكيل زائد
+                        text = text.replace(/^بِسْمِ\s+اللَّهِ\s+الرَّحْمَٰنِ\s+الرَّحِيمِ\s*/u, '');
+                        text = text.replace(/^بِسْمِ\s+ٱللَّهِ\s+ٱلرَّحْمَٰنِ\s+ٱلرَّحِيمِ\s*/u, '');
                     }
                 }
                 const span = document.createElement('span');
